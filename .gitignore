@@ -1,0 +1,12 @@
+loop_client/Temp/
+loop_client/obj/
+loop_client/Library/
+loop_client/Logs/
+LoopSever/.vs/
+LoopSever/bin/
+LoopSever/obj/
+LoopClient/Library/
+LoopClient/Logs/
+LoopClient/obj/
+LoopClient/.vs/
+LoopClient/Temp/
