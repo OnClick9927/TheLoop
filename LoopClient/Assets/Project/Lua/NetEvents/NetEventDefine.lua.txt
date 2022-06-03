@@ -1,0 +1,61 @@
+
+NetEventDefine = {
+	SPItemCount = {
+		MainId = 2,
+		SubId = 1,
+	},
+	SPItemCountChange = {
+		MainId = 2,
+		SubId = 2,
+	},
+	SCRoleLogin = {
+		MainId = 1,
+		SubId = 1,
+	},
+	CSItemCount = {
+		MainId = 2,
+		SubId = 1,
+	},
+	CSRoleLogin = {
+		MainId = 1,
+		SubId = 1,
+	},
+}
+
+---@class SPItemCount
+---@field items table<number,number>
+---@field Code number
+
+---@class SPItemCountChange
+---@field items table<number,number>
+---@field Code number
+
+---@class SCRoleLogin
+---@field Code number
+---@field loginType LoginType
+---@field Password string
+---@field RoleID number
+
+---@class CSItemCount
+
+---@class CSRoleLogin
+---@field loginType LoginType
+---@field Password string
+---@field RoleID number
+
+---@class LoginType Enum
+
+NetEventDefine.Enums = {
+	LoginType = {
+		Login = 0,
+		Signin = 1,
+	},
+}
+
+NetEventDefine.ErrorCodes = {
+	LoginErrCode = {
+		NotExistRoleID = 2,
+		PasswordErr = 3,
+		Success = 0,
+	},
+}

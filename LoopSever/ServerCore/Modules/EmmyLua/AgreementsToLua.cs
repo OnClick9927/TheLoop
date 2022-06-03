@@ -104,7 +104,6 @@ namespace LoopSever.ServerCore.Modules.EmmyLua
                     $"\t\tSubId = {h.SubId},\n" +
                     $"\t{right},\n";
             }
-            Log.E("---------------EmmyLua 服务器消息结构已变更需要重新编写导出逻辑----------------------------");
             return result + "}\n";
         }
 
@@ -157,13 +156,52 @@ namespace LoopSever.ServerCore.Modules.EmmyLua
                         if (_type.IsSubclassOfGeneric(typeof(List<>)))
                         {
                             var eles = _type.GetGenericArguments();
-                            _type = eles[0].MakeArrayType();
+                            var element_type = eles[0];
+                            var element_type_luaType = GetLuaType(element_type);
+                            if (string.IsNullOrEmpty(element_type_luaType))
+                            {
+                                luaType = $"{element_type.Name}[]";
+                                other.Add(element_type);
+                            }
+                            else
+                            {
+                                luaType = $"{element_type_luaType}[]";
+                            }
+
                         }
-                        if (_type.IsArray)
+                        else if (_type.IsArray)
                         {
                             var element_type = _type.GetElementType();
-                            luaType = $"{element_type.Name}[]";
-                            other.Add(element_type);
+                            var element_type_luaType = GetLuaType(element_type);
+                            if (string.IsNullOrEmpty(element_type_luaType))
+                            {
+                                luaType = $"{element_type.Name}[]";
+                                other.Add(element_type);
+                            }
+                            else
+                            {
+                                luaType = $"{element_type_luaType}[]";
+                            }
+
+                        }
+                        else if (_type.IsSubclassOfGeneric(typeof(Dictionary<,>)))
+                        {
+                            var eles = _type.GetGenericArguments();
+                            var element_type_1 = eles[0];
+                            var element_type_2 = eles[1];
+                            var element_type_luaType_1 = GetLuaType(element_type_1);
+                            var element_type_luaType_2 = GetLuaType(element_type_2);
+                            if (string.IsNullOrEmpty(element_type_luaType_1))
+                            {
+                                other.Add(element_type_1);
+                                element_type_luaType_1 = element_type_1.Name;
+                            }
+                            if (string.IsNullOrEmpty(element_type_luaType_2))
+                            {
+                                other.Add(element_type_2);
+                                element_type_luaType_2 = element_type_2.Name;
+                            }
+                            luaType = $"table<{element_type_luaType_1},{element_type_luaType_2}>";
                         }
                         else
                         {

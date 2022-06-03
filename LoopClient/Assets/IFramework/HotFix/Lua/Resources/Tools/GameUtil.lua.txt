@@ -1,0 +1,42 @@
+local GameUtil = {}
+---@overload fun(original:UnityEngine.Object,position:UnityEngine.Vector3,rotation:UnityEngine.Quaternion):UnityEngine.Object
+---@overload fun(original:UnityEngine.Object,position:UnityEngine.Vector3,rotation:UnityEngine.Quaternion,parent:UnityEngine.Transform):UnityEngine.Object
+---@overload fun(original:UnityEngine.Object):UnityEngine.Object
+---@overload fun(original:UnityEngine.Object,parent:UnityEngine.Transform):UnityEngine.Object
+---@overload fun(original:UnityEngine.Object,parent:UnityEngine.Transform,instantiateInWorldSpace:System.Boolean):UnityEngine.Object
+---@overload fun(original:any):any
+---@overload fun(original:any,position:UnityEngine.Vector3,rotation:UnityEngine.Quaternion):any
+---@overload fun(original:any,position:UnityEngine.Vector3,rotation:UnityEngine.Quaternion,parent:UnityEngine.Transform):any
+---@overload fun(original:any,parent:UnityEngine.Transform):any
+---@param original any
+---@param parent UnityEngine.Transform
+---@param worldPositionStays System.Boolean
+---@return any
+function GameUtil.NewObject(original, parent, worldPositionStays)
+    CS.UnityEngine.GameObject.Instantiate(original, parent, worldPositionStays)
+end
+
+---@overload fun(obj:UnityEngine.Object,t:System.Single):void
+---@param obj UnityEngine.Object
+---@return void
+function GameUtil.DestoryObject(obj)
+    CS.UnityEngine.GameObject.Destroy(obj)
+end
+
+---@param trans UnityEngine.Transform
+---@param requireParam string|nil
+function GameUtil.GetLuaClass(trans, requireParam)
+    if requireParam then
+        return trans:GetLuaBehaviourSelf(requireParam)
+    else
+        return trans:GetLuaBehaviourSelf()
+    end
+end
+
+---@param trans UnityEngine.Transform
+---@param requireParam string|nil
+function GameUtil.AddLuaClass(trans, requireParam)
+    return trans:AddLuaBehaviour(requireParam).self
+end
+
+return GameUtil

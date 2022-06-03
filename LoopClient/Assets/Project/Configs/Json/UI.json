@@ -1,0 +1,21 @@
+{
+  "datas": [
+    {
+      "panelName": "LoadScenePanel",
+      "layer": 8,
+      "layerOrder": 2
+    },
+    {
+      "panelName": "LoginPanel",
+      "layer": 3,
+      "layerOrder": 0
+    },
+    {
+      "panelName": "MainPanel",
+      "layer": 3,
+      "layerOrder": 1
+    }
+  ],
+  "name": "New Loop Client Panel Config",
+  "hideFlags": 0
+}

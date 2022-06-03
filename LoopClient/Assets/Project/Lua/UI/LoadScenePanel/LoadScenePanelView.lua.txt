@@ -1,0 +1,67 @@
+--*********************************************************************************
+--Author:         LoopClient
+--Version:        1.0
+--UnityVersion:   2020.3.30f1c1
+--Date:           2022-06-03
+--Description:    Description
+--History:        2022-06-03
+--*********************************************************************************
+
+---ViewUseFlag
+local RectTransform = StaticUsing("UnityEngine.RectTransform")
+local Slider = StaticUsing("UnityEngine.UI.Slider")
+
+---ViewUseFlag
+---@type LoadScenePanelViewModelFields
+local LoadScenePanelViewModelFields = require("UI.LoadScenePanel.LoadScenePanelViewModelFields")
+---@type LoadScenePanelViewEventType
+local LoadScenePanelViewEventType = require("UI.LoadScenePanel.LoadScenePanelViewEventType")
+---@class LoadScenePanelView : UIView
+local LoadScenePanelView = class("LoadScenePanelView", UIView)
+
+function LoadScenePanelView:OnLoad()
+	self.Controls = {
+		---@type UnityEngine.RectTransform
+		BG = self:GetComponent("BG", typeof(RectTransform)),
+		---@type UnityEngine.UI.Slider
+		Progress = self:GetComponent("BG/Progress", typeof(Slider)),
+	}
+	--BindUIEvent
+
+end
+
+function LoadScenePanelView:BindProperty()
+	--BindContextField
+	self:BindContextField(LoadScenePanelViewModelFields.prepare, self.BindPrePare)
+	self:BindContextField(LoadScenePanelViewModelFields.progress, self.BindProgress)
+end
+
+function LoadScenePanelView:OnShow()
+
+end
+
+function LoadScenePanelView:OnHide()
+
+end
+
+function LoadScenePanelView:OnPause()
+
+end
+
+function LoadScenePanelView:OnResume()
+
+end
+
+function LoadScenePanelView:OnClose()
+	self.Controls = nil
+end
+
+function LoadScenePanelView:BindPrePare()
+	SetActive(self.Controls.BG, self.context.prepare)
+end
+
+function LoadScenePanelView:BindProgress()
+	self:SetSlider(self.Controls.Progress, self.context.progress)
+end
+
+return LoadScenePanelView

@@ -1,0 +1,26 @@
+---@class UserModel:Data
+local M = class("UserModel", Data)
+
+function M:ctor()
+    ---@type UserSaveData
+    self.saveData = Datas:GetData(DataType.UserSaveData)
+end
+
+function M:SaveLoginResult(logintype, RoleId, Passwd)
+    self.RoleId = RoleId
+    self.Passwd = Passwd
+    self.LoginType = logintype
+    local data = self:GetSaveData()
+    data:SaveLoginResult(logintype, RoleId, Passwd)
+end
+
+function M:GetSaveData()
+    return self.saveData
+end
+
+function M:HaveSaveData()
+    local data = self:GetSaveData()
+    return data:GetRoleId() and data:GetPassword()
+end
+
+return M

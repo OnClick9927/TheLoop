@@ -1,0 +1,12 @@
+---@class ItemModel:Data
+local M = class("ItemModel", Data)
+
+function M:ctor()
+    self.items = {}
+end
+
+function M:SetItemCount(id, count)
+    self.items[id] = count
+end
+
+return M

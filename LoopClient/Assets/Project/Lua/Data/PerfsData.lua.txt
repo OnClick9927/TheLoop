@@ -1,0 +1,15 @@
+---@class PerfsData:Data
+local PerfsData = class("PerfsData", Data)
+function PerfsData:ctor()
+    self.data = GetPerfs(self.__classname)
+    if not self.data then
+        self.data = {}
+    end
+end
+
+function PerfsData:Save()
+    Json.newObject(self.data)
+    SetPerfs(self.__classname, self.data)
+end
+
+return PerfsData

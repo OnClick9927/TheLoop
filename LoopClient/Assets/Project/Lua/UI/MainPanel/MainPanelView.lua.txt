@@ -1,0 +1,54 @@
+--*********************************************************************************
+--Author:         LoopClient
+--Version:        1.0
+--UnityVersion:   2020.3.30f1c1
+--Date:           2022-06-03
+--Description:    Description
+--History:        2022-06-03
+--*********************************************************************************
+
+---ViewUseFlag
+
+
+---ViewUseFlag
+---@type MainPanelViewModelFields
+local MainPanelViewModelFields = require("UI.MainPanel.MainPanelViewModelFields")
+---@type MainPanelViewEventType
+local MainPanelViewEventType = require("UI.MainPanel.MainPanelViewEventType")
+---@class MainPanelView : UIView
+local MainPanelView = class("MainPanelView",UIView)
+
+function MainPanelView:OnLoad()
+	self.Controls = {
+
+	}
+	--BindUIEvent
+
+end
+
+function MainPanelView:BindProperty()
+	--BindContextField
+
+end
+
+function MainPanelView:OnShow()
+
+end
+
+function MainPanelView:OnHide()
+
+end
+
+function MainPanelView:OnPause()
+
+end
+
+function MainPanelView:OnResume()
+
+end
+
+function MainPanelView:OnClose()
+	self.Controls = nil
+end
+
+return MainPanelView

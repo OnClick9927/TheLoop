@@ -1,0 +1,158 @@
+--- @class VVMGroup:Unit
+local VVMGroup = class("VVMGroup")
+---@param panel IFramework.UI.UIPanel UI
+---@param view UIView UIView
+---@param viewModel ViewModel ViewModel
+function VVMGroup:ctor(panel, view, viewModel)
+    self.viewModel = viewModel
+    ---@type UIView
+    self.view = view
+    self.panel = panel
+    -- self.view:BindProperty()
+    self.viewModel:Initialize()
+end
+
+function VVMGroup:Dispose()
+    self.viewModel:Dispose()
+    local close = Handler(self.view.OnClose, self.view)
+    pcall(close)
+    -- self.view:Dispose()
+end
+
+---@class LuaGroups
+LuaGroups = class("LuaGroups")
+local __CSGroups = StaticUsing("IFramework.Hotfix.Lua.LuaGroups")
+function LuaGroups:ctor()
+    self.onDispose = Handler(self.OnDispose, self)
+    self.onSubscribe = Handler(self.OnSubscribe, self)
+    self.onUnSubscribe = Handler(self.OnUnSubscribe, self)
+    self.onFindPanel = Handler(self.OnFindPanel, self)
+    self.onShow = Handler(self.OnShow, self)
+    self.onHide = Handler(self.OnHide, self)
+    self.onPause = Handler(self.OnPause, self)
+    self.onResume = Handler(self.OnResume, self)
+    self.onClose = Handler(self.OnClose, self)
+    self.onLoad = Handler(self.OnLoad, self)
+    ---@type table<string,VVMGroup>
+    self.groups = {}
+end
+
+---map: { { Name = "**",ViewType =require("****"), VMType=require("***")},}
+--- @param map table 自动生成的
+--- @return IFramework.Hotfix.Lua.LuaGroups
+function LuaGroups:SetMap(map)
+    if map == nil then
+        error("map could not be null ")
+        return
+    end
+    self.CS_instance = __CSGroups()
+    self.CS_instance:onDispose("+", self.onDispose)
+    self.CS_instance:onSubscribe("+", self.onSubscribe)
+    self.CS_instance:onUnSubscribe("+", self.onUnSubscribe)
+    self.CS_instance:onFindPanel("+", self.onFindPanel)
+    self.CS_instance:onLoad("+", self.onLoad)
+    self.CS_instance:onShow("+", self.onShow)
+    self.CS_instance:onHide("+", self.onHide)
+    self.CS_instance:onPause("+", self.onPause)
+    self.CS_instance:onResume("+", self.onResume)
+    self.CS_instance:onClose("+", self.onClose)
+    self.map = map
+    return self.CS_instance
+end
+
+-------------------------------- 以下方法私有 --------------------------------
+
+function LuaGroups:OnDispose()
+    for i, group in pairs(self.groups) do
+        group:Dispose()
+    end
+
+    self.CS_instance:onDispose("-", self.onDispose)
+    self.CS_instance:onSubscribe("-", self.onSubscribe)
+    self.CS_instance:onUnSubscribe("-", self.onUnSubscribe)
+    self.CS_instance:onFindPanel("-", self.onFindPanel)
+    self.CS_instance:onLoad("-", self.onLoad)
+    self.CS_instance:onShow("-", self.onShow)
+    self.CS_instance:onHide("-", self.onHide)
+    self.CS_instance:onPause("-", self.onPause)
+    self.CS_instance:onResume("-", self.onResume)
+    self.CS_instance:onClose("-", self.onClose)
+    self.groups = nil
+    self.CS_instance = nil
+    self.map = nil
+end
+
+---@return VVMGroup
+function LuaGroups:FindGroup(name)
+    return rawget(self.groups, name)
+end
+
+function LuaGroups:OnSubscribe(panel)
+    local name = panel.name
+    if rawget(self.groups, panel.name) ~= nil then
+        print("same name with panel  " .. panel.name)
+        return false
+    end
+    local vvmType
+
+    for i, v in pairs(self.map) do
+        if v.Name == name then
+            vvmType = v
+            break
+        end
+    end
+    if (vvmType == nil) then
+        error("not find vvm type with Name :" .. name)
+        return false
+    end
+
+    local viewModel = vvmType.VMType()
+    local view = vvmType.ViewType(viewModel, panel)
+    ---@type VVMGroup
+    local vvmGroup = VVMGroup(panel, view, viewModel)
+    rawset(self.groups, panel.name, vvmGroup)
+end
+
+function LuaGroups:OnUnSubscribe(panel)
+    local group = rawget(self.groups, panel.name)
+    if group ~= nil then
+        group:Dispose()
+        rawset(self.groups, panel.name, nil)
+        return true
+    end
+    return false
+end
+
+function LuaGroups:OnFindPanel(name)
+    local group = self:FindGroup(name)
+    if group ~= nil then
+        return group.panel
+    end
+    return nil
+end
+
+function LuaGroups:OnLoad(name)
+    local view = self:FindGroup(name).view
+    view:OnLoad()
+    view:BindProperty()
+end
+
+function LuaGroups:OnShow(name)
+    self:FindGroup(name).view:OnShow()
+end
+
+function LuaGroups:OnHide(name)
+    self:FindGroup(name).view:OnHide()
+end
+
+function LuaGroups:OnPause(name)
+    self:FindGroup(name).view:OnPause()
+end
+
+function LuaGroups:OnResume(name)
+    self:FindGroup(name).view:OnResume()
+end
+
+function LuaGroups:OnClose(name)
+    self:FindGroup(name).view:OnClose()
+end

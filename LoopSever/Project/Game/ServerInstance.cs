@@ -3,7 +3,7 @@ using System.Timers;
 using LoopSever.Project.Net;
 using LoopSever.ServerCore.Modules.NetCore;
 using LoopSever.ServerCore.Plugins;
-
+using LoopSever.ServerCore.Modules.Db;
 
 namespace LoopSever.Project.Game
 {
@@ -43,7 +43,6 @@ namespace LoopSever.Project.Game
             Log.L($"开始关闭  {nameof(ServerInstance)}");
             Framework.GetEnv(envType).Dispose();
             sever.Dispose();
-            // SevicedbContext.Destroy();
             Log.L($"关闭成功 {nameof(ServerInstance)}");
         }
 
@@ -63,29 +62,9 @@ namespace LoopSever.Project.Game
 
         private static void InitDb()
         {
-           
+            SqliteDbContext.Create(SeverConst.dbPath);
         }
 
-
-        /**********************************************************/
-
-        // public static T GetDbContext<T>() where T : class
-        // {
-        //     return GetDbContext() as T;
-        // }
-        //
-        // public static GameDbContext GetDbContext()
-        // {
-        //     
-        //     MySqlDbConf sqlConf = new MySqlDbConf
-        //     {
-        //         server = MySqlConst.server, port = MySqlConst.port, userid = MySqlConst.userid,
-        //         pwd = MySqlConst.pwd, database = MySqlConst.database,
-        //     };
-        //     return new GameDbContext(sqlConf);
-        //     
-        //     return SevicedbContext;
-        // }
         public static NetPlayersData GetClientsData()
         {
             return sever.GetClientsData<NetPlayersData>();

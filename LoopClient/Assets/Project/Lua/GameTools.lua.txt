@@ -1,0 +1,60 @@
+---加载场景
+---@param scenePath string 场景路径
+---@param callback function
+function LoadScene(scenePath, callback)
+    Events:Publish(LuaEventTypes.LoadScene, scenePath, callback)
+end
+
+function ShowUI(panelName)
+    UI:Show(panelName)
+end
+
+function CloseUI(panelName)
+    UI:Close(panelName)
+end
+
+---@param path string
+---@param classType Unit
+---@param parent UnityEngine.Transform|nil
+---@return UIItem
+function GetUIItem(path, classType, parent)
+    return UIItems:Get(path, classType, parent)
+end
+
+---@param path string
+---@param class UIItem
+function SetUIItem(path, class)
+    return UIItems:Set(path, class)
+end
+
+function SetActive(gameObject, active)
+    gameObject.gameObject:SetActive(active)
+end
+
+---@return string
+function GetDeviceUniqueIdentifier()
+    return GameTools.GetDeviceUniqueIdentifier()
+end
+
+---@param key string
+---@return table
+function GetPerfs(key)
+    local str = Perfs.Read(key)
+    if string.IsNullOrEmtty(str) then
+        return nil
+    end
+    local decode = Json:decode(str)
+    return decode
+end
+
+---@param key string
+---@param tab table
+function SetPerfs(key, tab)
+    local encode = Json:encode(tab)
+    Perfs.Save(key, encode)
+end
+
+LoadText = async(function(path)
+    local json = await(GameTools.LoadText(path))
+    return json
+end)

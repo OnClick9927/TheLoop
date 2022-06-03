@@ -21,4 +21,9 @@ public static class SeverConst
     public static int port = 9633;
     public static int connections = 2000;
     public static int pkgSize = 1024 * 1024;
+    public static string rootPath = "";
+    public static string dbPath { get { string path= Path.Combine(rootPath, "DB");
+            Ex.MakeDirectoryExist(path);
+            return path;
+        } }
 }

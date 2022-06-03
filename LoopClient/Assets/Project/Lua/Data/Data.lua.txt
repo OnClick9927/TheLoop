@@ -1,0 +1,18 @@
+---@class Data:Unit
+local Data = class("Data")
+
+function Data:ctor()
+end
+
+function Data:LoadJson(path)
+    local func = async(function(self, path)
+        local json = await(LoadText(path))
+        local decode = Json:decode(json)
+        self:OnLoadJson(decode, path)
+    end)
+    func(self, path)
+end
+
+function Data:OnLoadJson(data, path) end
+
+return Data

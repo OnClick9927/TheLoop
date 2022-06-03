@@ -1,0 +1,28 @@
+Log.L('GlobalDefine')
+UnityEngine = CS.UnityEngine
+GameObject = UnityEngine.GameObject
+Vector3 = UnityEngine.Vector3
+Vector2 = UnityEngine.Vector2
+LuaArgs = CS.IFramework.Hotfix.Lua.LuaArgs
+require("Define.ResDefine")
+require("Define.LuaEventTypes")
+PanelNames = require("UI.PanelNames")
+Data = require("Data.Data")
+PerfsData = require("Data.PerfsData")
+---@type Datas
+Datas = require("Data.Datas")()
+---@type DataType
+DataType = require("Data.DataType")
+
+Events = EventSystem()
+local Launcher = CS.IFramework.Launcher
+Game = Launcher.Instance.game
+UI = Game.unityModules.UI
+Assets = CS.IFramework.Hotfix.Asset.Assets
+GameTools = CS.LoopClient.GameTools
+require("NetEvents.NetEvents")
+---@type UIItemPool
+UIItems = UIItemPool(UI)
+Perfs = CS.LoopClient.LoopClientPerfs
+---------------------------------------------------------------------------------------
+require("GameTools")

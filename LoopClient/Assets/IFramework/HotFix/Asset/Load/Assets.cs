@@ -1,0 +1,237 @@
+﻿/*********************************************************************************
+ *Author:         OnClick
+ *Version:        0.0.2.179
+ *UnityVersion:   2019.4.36f1c1
+ *Date:           2022-03-07
+ *Description:    IFramework
+ *History:        2018.11--
+*********************************************************************************/
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+namespace IFramework.Hotfix.Asset
+{
+    public partial class Assets
+    {
+        private static BundleMap bundles;
+        private static AssetMap assets;
+        private static AssetsSetting setting;
+        private static string buildTarget;
+        private static AssetManifest manifest;
+        private static LoadManifestOperation manifestop;
+        public static bool fastMode;
+        public static string downloadDirectory;
+        public static event Func<bool, Bundle, List<Asset>, AssetLoadArgs, Asset> AssetCreater;
+        public static event Func<bool, Bundle, List<Asset>, SceneAssetLoadArgs, SceneAsset> SceneAssetCreater;
+        public static event Func<List<string>> GetAllAssetPath;
+
+        static Assets()
+        {
+            switch (Application.platform)
+            {
+                case RuntimePlatform.Android: buildTarget = "Android"; break;
+                case RuntimePlatform.WindowsPlayer: buildTarget = "Windows"; break;
+                case RuntimePlatform.IPhonePlayer: buildTarget = "iOS"; break;
+                case RuntimePlatform.WebGLPlayer: buildTarget = "WebGL"; break;
+            }
+            downloadDirectory = Application.persistentDataPath.CombinePath("DLC");
+            Ex.MakeDirectoryExist(downloadDirectory);
+            bundles = new BundleMap();
+            assets = new AssetMap();
+        }
+
+        private static FileCheckType GetFileCheckType()
+        {
+            return setting.GetFileCheckType();
+        }
+        public static int GetWebRequestTimeout()
+        {
+            return setting.GetWebRequestTimeout();
+        }
+        private static void CheckSetting()
+        {
+            if (setting == null)
+                LogError("setting is null");
+        }
+        private static string GetUrlFromBundleName(string bundleName)
+        {
+            CheckSetting();
+            return setting.GetUrlByBundleName(buildTarget, bundleName);
+        }
+        private static string GetVersionUrl()
+        {
+            CheckSetting();
+            return setting.GetVersionUrl();
+        }
+        private static string GetBundleLocalPath(string bundleName)
+        {
+            return downloadDirectory.CombinePath(bundleName);
+        }
+        private static string[] GetLocalBundles()
+        {
+            var files = Directory.GetFiles(downloadDirectory);
+            for (int i = 0; i < files.Length; i++)
+            {
+                files[i] = files[i].ToRegularPath();
+            }
+            return files;
+        }
+
+
+        private static bool IsManifestNull()
+        {
+            return manifest == null;
+        }
+        private static List<string> GetAssetDps(string assetpath)
+        {
+            return IsManifestNull() ? null : manifest.GetAssetDependences(assetpath);
+        }
+        private static string GetBundleNameByAssetPath(string assetPath)
+        {
+            string bundleName = manifest.GetBundle(assetPath);
+            return bundleName;
+        }
+        public static IReadOnlyList<string> GetAllAssetPaths()
+        {
+            if (fastMode) return GetAllAssetPath.Invoke();
+            return IsManifestNull() ? null : manifest.GetAssets();
+        }
+
+        private static Asset CreateAsset(bool async, string assetPath, List<Asset> dps, AssetLoadArgs arg)
+        {
+            return fastMode ? AssetCreater.Invoke(async, null, dps, arg) : new Asset(async, LoadTargetBundle(assetPath, async), dps, arg);
+        }
+        private static SceneAsset CreateSceneAsset(bool async, string assetPath, List<Asset> dps, SceneAssetLoadArgs arg)
+        {
+            return fastMode ? SceneAssetCreater.Invoke(async, null, dps, arg) : new SceneAsset(async, LoadTargetBundle(assetPath, async), dps, arg);
+        }
+
+        private static Bundle LoadBundle(string bundleName, uint crc = 0u, ulong offset = 0uL)
+        {
+            string filePath = GetBundleLocalPath(bundleName);
+            if (!File.Exists(filePath))
+                return LoadBundleFromWebRequest(GetUrlFromBundleName(bundleName), crc);
+            Bundle bundle = bundles.Load(filePath, crc, offset);
+            return bundle;
+        }
+        private static Bundle LoadBundleAsync(string bundleName, uint crc = 0u, ulong offset = 0uL)
+        {
+            string filePath = GetBundleLocalPath(bundleName);
+            if (!File.Exists(filePath))
+                return LoadBundleFromWebRequest(GetUrlFromBundleName(bundleName), crc);
+            Bundle bundle = bundles.LoadAsync(filePath, crc, offset);
+            return bundle;
+        }
+        private static Bundle LoadBundleFromWebRequest(string url, uint crc = 0u)
+        {
+            Bundle bundle = bundles.RequestLoadAsync(url, crc);
+            return bundle;
+        }
+        private static Bundle LoadTargetBundle(string assetPath, bool async)
+        {
+            string bundleName = GetBundleNameByAssetPath(assetPath);
+            return async ? LoadBundleAsync(bundleName) : LoadBundle(bundleName);
+        }
+        private static void ReleseBundleByAssetPath(string assetpath)
+        {
+            if (IsManifestNull()) return;
+            string bundle = GetBundleNameByAssetPath(assetpath);
+            bundles.Release(bundle);
+        }
+
+        private static void LoadDps(string path, bool async)
+        {
+            List<string> dps = GetAssetDps(path);
+            if (dps != null)
+            {
+                foreach (var item in dps)
+                {
+                    if (async)
+                        LoadAssetAsync(item);
+                    else
+                        LoadAsset(item);
+                }
+            }
+        }
+
+
+
+        public static void SetAssetsSetting(AssetsSetting setting)
+        {
+            Assets.setting = setting;
+        }
+        public static CheckBundleVersionOperation VersionCheck()
+        {
+            return new CheckBundleVersionOperation(GetVersionUrl());
+        }
+        public static DownLoadBundleOperation DownLoadBundle(string bundleName)
+        {
+            return new DownLoadBundleOperation(bundleName);
+        }
+        public static bool Initialized()
+        {
+            if (manifestop == null) return false;
+            return manifestop.isDone;
+        }
+
+        public static LoadManifestOperation InitAsync()
+        {
+            if (manifestop == null)
+            {
+                manifestop = new LoadManifestOperation();
+            }
+            return manifestop;
+        }
+        private static bool IsScene(string path)
+        {
+            return path.EndsWith("unity");
+        }
+        public static Asset LoadAsset(string path)
+        {
+            if (IsScene(path))
+            {
+                return LoadSceneAsset(path);
+            }
+            LoadDps(path, false);
+            Asset asset = assets.LoadAsset(path);
+            return asset;
+        }
+        public static Asset LoadAssetAsync(string path)
+        {
+            if (IsScene(path))
+            {
+                return LoadSceneAssetAsync(path);
+            }
+            LoadDps(path, true);
+            Asset asset = assets.LoadAssetAyync(path);
+            return asset;
+        }
+        public static SceneAsset LoadSceneAssetAsync(string path)
+        {
+            LoadDps(path, false);
+            SceneAsset asset = assets.LoadSceneAssetAsync(path);
+            return asset;
+        }
+        public static SceneAsset LoadSceneAsset(string path)
+        {
+            LoadDps(path, false);
+            SceneAsset asset = assets.LoadSceneAsset(path);
+            return asset;
+        }
+        public static void Release(Asset asset)
+        {
+            assets.Release(asset.path);
+        }
+        public static AssetsGroupOperation PrepareAssets(string[] paths)
+        {
+            return new AssetsGroupOperation(paths);
+        }
+
+        public static void LogError(string err)
+        {
+            Debug.LogError("Assets : " + err);
+        }
+    }
+}

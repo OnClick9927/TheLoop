@@ -1,0 +1,23 @@
+---@param data SPItemCount
+local function OnSPItemCount(data)
+    local items = data.items
+    ---@type ItemModel
+    local ItemModel = Datas:GetData(DataType.ItemModel)
+    for key, value in pairs(items or {}) do
+        ItemModel:SetItemCount(key, value)
+    end
+end
+
+NetEvents.SetHandler(NetEventDefine.SPItemCount, OnSPItemCount)
+
+---@param data SPItemCountChange
+local function OnSPItemCountChange(data)
+    local items = data.items
+    ---@type ItemModel
+    local ItemModel = Datas:GetData(DataType.ItemModel)
+    for key, value in pairs(items or {}) do
+        ItemModel:SetItemCount(key, value)
+    end
+end
+
+NetEvents.SetHandler(NetEventDefine.SPItemCountChange, OnSPItemCountChange)

@@ -28,6 +28,7 @@ class Program
             .IsOSPlatform(OSPlatform.Windows);
         if (isWindows)
         {
+            AgreementsToLua.Build();
             WindowsKeyListener();
         }
         else
@@ -80,7 +81,7 @@ class Program
         }
         else if (key == ConsoleKey.T)
         {
-            AgreementsToLua.Build();
+            
         }
     }
 

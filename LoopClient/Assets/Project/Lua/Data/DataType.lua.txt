@@ -1,0 +1,7 @@
+---@class DataType
+local DataType = {
+    UserSaveData = "Data.User.UserSaveData",
+    UserModel    = "Data.User.UserModel",
+    ItemModel    = "Data.Item.ItemModel"
+}
+return DataType

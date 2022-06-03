@@ -1,0 +1,22 @@
+---@class UserSaveData:PerfsData
+local M = class("UserSaveData", PerfsData)
+function M:SaveLoginResult(logintype, RoleId, Passwd)
+    self.data.RoleId = RoleId
+    self.data.Passwd = Passwd
+    self.data.LoginType = logintype
+    self:Save()
+end
+
+function M:GetRoleId()
+    return self.data.RoleId
+end
+
+function M:GetPassword()
+    return self.data.Passwd
+end
+
+function M:GetLoginType()
+    return self.data.LoginType
+end
+
+return M

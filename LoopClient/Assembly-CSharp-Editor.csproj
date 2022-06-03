@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{D8CDA467-4C8B-AB2A-E6D8-0D42CFDA5822}</ProjectGuid>
+    <ProjectGuid>{1BB017CD-BA25-C897-C910-27916FFDC088}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
@@ -26,7 +26,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -54,15 +54,108 @@
   </PropertyGroup>
   <ItemGroup>
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
+    <Analyzer Include="E:\Project\TheLoop\LoopClient\Assets\Project\Scripts\Editor\Newtonsoft.Json.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Spriter2UnityDX\Editor\PrefabBuilder.cs" />
-    <Compile Include="Assets\Spriter2UnityDX\Editor\ScmlImportOptions.cs" />
-    <Compile Include="Assets\Spriter2UnityDX\Editor\CustomEditors.cs" />
-    <Compile Include="Assets\Spriter2UnityDX\Editor\AnimationBuilder.cs" />
-    <Compile Include="Assets\Spriter2UnityDX\Editor\ScmlPostProcessor.cs" />
-    <Compile Include="Assets\Spriter2UnityDX\Editor\ScmlSupport.cs" />
-    <Compile Include="Assets\Spriter2UnityDX\Editor\S2USettings.cs" />
+    <Compile Include="Assets\IFramework\Tweens\Editor\TweenWindow.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\GUI\SearchablePopup.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\Window\AssetsWindow.Collection.Directorys.cs" />
+    <Compile Include="Assets\IFramework\UI\Tools\Scripts\Editor\GuideMaskEditor.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\EditorTools.DirectoryAssetEditorView.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\EditorTools.ReorderableListTool.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Lua\Scripts\Editor\LuaEditorTools.tmp.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\EditorTools.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\CopyAsset.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\GUI\GUIStyles.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\Env\EditorEnv.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\GUI\SplitView.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\EditorWindowCacheAttribute.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Asset\EditorAsset.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\GUI\GUIScaleUtility.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\GUI\MenuTree.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Lua\Scripts\Editor\LuaConfigs.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\Env\EditorEnv.FileInitializer.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Lua\Scripts\Editor\LuaEditorTools.LuaBehaviorEditor.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\EditorTools.ScriptCreaterFieldsDrawer.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\EditorTools.DragAndDropTool.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\AssetBundleBuild\ICollectAssetBundleBuild.cs" />
+    <Compile Include="Assets\IFramework\UI\Editor\UIMoudleWindow.UIMoudleWindowTab.cs" />
+    <Compile Include="Assets\IFramework\UI\Editor\PanelGenData.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\RootWindow\RootWindow.UserOptionTab.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\Window\AssetsWindow.Collection.CollectType.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\EditorTools.Prefs.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Lua\Scripts\Editor\LuaEditorTools.GenItemCode_lua.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\RectEx.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\GUI\SearchField.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\EditorTools.ScriptCreater.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\AssetBundleBuild\DefaultCollectAssetBundleBuild.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\AssetBuildSetting.cs" />
+    <Compile Include="Assets\XLua\XLua\Src\Editor\Hotfix.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\AssetBundleBuild\SimpleCollectAssetBundleBuild.cs" />
+    <Compile Include="Assets\XLua\XLua\Editor\ExampleConfig.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\RootWindow\RootWindow.SystemTab.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\GUI\GUIBase.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\Env\EditorEnv.IFileInitializer.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\Window\AssetsWindow.Collection.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\GUI\ToolBarTree.cs" />
+    <Compile Include="Assets\XLua\XLua\Src\Editor\Generator.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Lua\Scripts\Editor\EmmyLuaService.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\Env\EditorEnv.FileInitializeCommand.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\GUI\SubWinTree.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\AssetsBuild.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\AssetsTree.cs" />
+    <Compile Include="Assets\IFramework\Tweens\Component\Editor\TweenComponentEditor.cs" />
+    <Compile Include="Assets\IFramework\Tweens\Component\Editor\DoScaleComponentEditor.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\AssetInfo.cs" />
+    <Compile Include="Assets\XLua\XLua\Src\Editor\TemplateRef.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\RootWindow\RootWindow.Contents.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\EditorTools.ProjectConfig.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\GUI\FileField.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\EditorTools.ScriptableObjectTool.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\Env\EditorEnv.ScriptEnvCheckCommand.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\EditorTools.WhenDeleteMonoScriptProcessor.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\EditorTools.UnityLogger.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\GUI\FloderField.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\Window\AssetsWindow.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Lua\Scripts\Editor\LuaEditorTools.LuaFloderField.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\Window\AssetsWindow.Collection.Tools.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\EditorTools.ScriptCreatorWindow.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Lua\Scripts\Editor\LuaEditorTools.FilePostProcessor.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\GUI\GUIContents.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\RootWindow\RootWindow.ProjectConfigTab.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\RootWindow\RootWindow.WindowCollection.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\AssetsEditorTool.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\Env\EditorEnv.ProjectFloderInitializer.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\EditorTools.EditorWindowTool.cs" />
+    <Compile Include="Assets\IFramework\UI\Editor\UIMoudleWindow.cs" />
+    <Compile Include="Assets\XLua\XLua\Src\Editor\LinkXmlGen\LinkXmlGen.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\Window\AssetsWindow.Collection.CollectTree.cs" />
+    <Compile Include="Assets\IFramework\UI\Editor\UIMoudleWindow.MVVM_GenCodeView.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Lua\Scripts\Editor\LuaEditorTools.MVVM_GenCodeView_Lua.cs" />
+    <Compile Include="Assets\IFramework\Core\Editor\RootWindow\RootWindow.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Lua\Scripts\Editor\LuaEditorTools.LuaFileInitializer.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Asset\EditorSceneAsset.cs" />
+    <Compile Include="Assets\IFramework\UI\Tools\Scripts\Editor\LoopListViewEditor.cs" />
+    <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\Window\AssetsWindow.Collection.AtlasDirs.cs" />
+    <Compile Include="Assets\Project\Scripts\Editor\LoopClientPanelConfigEditor.cs" />
+    <Compile Include="Assets\Project\Scripts\Editor\LoopClientPanelConfig.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\XLua\XLua\Src\Editor\Template\LuaInterfaceBridge.tpl.txt" />
+    <None Include="Assets\XLua\XLua\Src\Editor\Template\LuaWrapPusher.tpl.txt" />
+    <None Include="Assets\XLua\XLua\Src\Editor\Template\LuaDelegateWrap.tpl.txt" />
+    <None Include="Assets\XLua\XLua\Src\Editor\Template\LuaRegister.tpl.txt" />
+    <None Include="Assets\XLua\XLua\Src\Editor\Template\LuaClassWrap.tpl.txt" />
+    <None Include="Assets\XLua\XLua\Src\Editor\Template\LuaRegisterGCM.tpl.txt" />
+    <None Include="Assets\XLua\XLua\Src\Editor\LinkXmlGen\LinkXmlGen.tpl.txt" />
+    <None Include="Assets\Project\Scripts\Editor\Newtonsoft.Json.dll" />
+    <None Include="Assets\XLua\XLua\Src\Editor\Template\PackUnpack.tpl.txt" />
+    <None Include="Assets\IFrameworkProjectMemory\Editor\a3a644d533297da2fed584eb2d6e7d1d.xml" />
+    <None Include="Assets\XLua\XLua\Src\Editor\Template\LuaEnumWrapGCM.tpl.txt" />
+    <None Include="Assets\XLua\XLua\Src\Editor\Template\LuaClassWrapGCM.tpl.txt" />
+    <None Include="Assets\XLua\XLua\Src\Editor\Template\TemplateCommon.lua.txt" />
+    <None Include="Assets\XLua\XLua\Src\Editor\Template\LuaDelegateBridge.tpl.txt" />
+    <None Include="Assets\XLua\XLua\Src\Editor\Template\LuaEnumWrap.tpl.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
@@ -310,6 +403,12 @@
     </Reference>
     <Reference Include="log4netPlastic">
       <HintPath>Library\PackageCache\com.unity.collab-proxy@1.15.12\Lib\Editor\PlasticSCM\log4netPlastic.dll</HintPath>
+    </Reference>
+    <Reference Include="IFramework">
+      <HintPath>Assets\IFramework\Core\RT\Plugins\IFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>Assets\Project\Scripts\Editor\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>Library\PackageCache\com.unity.ext.nunit@1.0.6\net35\unity-custom\nunit.framework.dll</HintPath>
@@ -761,7 +860,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{0C9541F2-AF2A-1174-2AF6-E8231DCB6880}</Project>
+      <Project>{AEFBCC75-F4C0-59B0-8EF5-DBB08B3E218E}</Project>
       <Name>Assembly-CSharp</Name>
     </ProjectReference>
   </ItemGroup>

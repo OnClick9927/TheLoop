@@ -1,0 +1,7 @@
+Log.L('Game Logic')
+local groups = LuaGroups()
+UI:SetGroups(groups:SetMap(require("UI.MVVMMap")))
+ShowUI(PanelNames.LoadScenePanel)
+LoadScene(ResDefine.Scene.Login, function()
+    ShowUI(PanelNames.LoginPanel)
+end)

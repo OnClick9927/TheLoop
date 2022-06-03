@@ -1,0 +1,23 @@
+---@class Datas
+local Datas = class("Datas")
+function Datas:ctor()
+    ---@type table<string,Data>
+    self.datas = {}
+end
+
+---@param type DataType
+---@return Data
+function Datas:GetData(type)
+    if not self.datas[type] then
+        self.datas[type] = self:LoadDataType(type)()
+    end
+    return self.datas[type]
+end
+
+---@param type DataType
+---@return Data
+function Datas:LoadDataType(type)
+    return require(type)
+end
+
+return Datas

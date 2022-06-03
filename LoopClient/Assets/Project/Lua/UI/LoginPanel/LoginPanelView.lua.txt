@@ -1,0 +1,65 @@
+--*********************************************************************************
+--Author:         LoopClient
+--Version:        1.0
+--UnityVersion:   2020.3.30f1c1
+--Date:           2022-06-03
+--Description:    Description
+--History:        2022-06-03
+--*********************************************************************************
+
+---ViewUseFlag
+local Button = StaticUsing("UnityEngine.UI.Button")
+
+---ViewUseFlag
+---@type LoginPanelViewModelFields
+local LoginPanelViewModelFields = require("UI.LoginPanel.LoginPanelViewModelFields")
+---@type LoginPanelViewEventType
+local LoginPanelViewEventType = require("UI.LoginPanel.LoginPanelViewEventType")
+---@class LoginPanelView : UIView
+local LoginPanelView = class("LoginPanelView", UIView)
+
+function LoginPanelView:OnLoad()
+	self.Controls = {
+		---@type UnityEngine.UI.Button
+		Login = self:GetComponent("Login", typeof(Button)),
+	}
+	--BindUIEvent
+	self:BindButton(self.Controls.Login, self.ClickLoginButton)
+end
+
+function LoginPanelView:BindProperty()
+	--BindContextField
+	self:BindContextField(LoginPanelViewModelFields.HaveSaveData, self.SetHaveSaveData)
+end
+
+function LoginPanelView:OnShow()
+
+end
+
+function LoginPanelView:OnHide()
+
+end
+
+function LoginPanelView:OnPause()
+
+end
+
+function LoginPanelView:OnResume()
+
+end
+
+function LoginPanelView:OnClose()
+	self:UnBindButton(self.Controls.Login)
+	self.Controls = nil
+end
+
+function LoginPanelView:ClickLoginButton()
+	self:PublishViewEvent(LoginPanelViewEventType.LoginButton)
+end
+
+function LoginPanelView:SetHaveSaveData()
+	local HaveSaveData = self:GetContextFieldValue(LoginPanelViewModelFields.HaveSaveData)
+	SetActive(self.Controls.Login, not HaveSaveData)
+end
+
+return LoginPanelView

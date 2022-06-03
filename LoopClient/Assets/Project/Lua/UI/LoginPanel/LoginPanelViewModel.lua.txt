@@ -1,0 +1,51 @@
+--*********************************************************************************
+--Author:         LoopClient
+--Version:        1.0
+--UnityVersion:   2020.3.30f1c1
+--Date:           2022-06-03
+--Description:    Description
+--History:        2022-06-03
+--*********************************************************************************
+
+---@type LoginPanelViewModelFields
+local LoginPanelViewModelFields = require("UI.LoginPanel.LoginPanelViewModelFields")
+---@type LoginPanelViewEventType
+local LoginPanelViewEventType = require("UI.LoginPanel.LoginPanelViewEventType")
+---@class LoginPanelViewModel : ViewModel
+local LoginPanelViewModel = class("LoginPanelViewModel", ViewModel)
+
+--return LoginPanelViewModel's Fields By table
+--Example return { myCount = 666 }
+function LoginPanelViewModel:GetFieldTable()
+    return {
+        [LoginPanelViewModelFields.HaveSaveData] = false,
+    }
+end
+
+function LoginPanelViewModel:OnInitialize()
+    Events:Subscribe(LuaEventTypes.LoginSucess, self.OnLoginSucess, self)
+    self.HaveSaveData = NetEvents.HaveSaveData()
+    if self.HaveSaveData then
+        NetEvents.Login()
+    end
+end
+
+function LoginPanelViewModel:OnLoginSucess()
+    LoadScene(ResDefine.Scene.Game, function()
+        ShowUI(PanelNames.MainPanel)
+        CloseUI(PanelNames.LoginPanel)
+    end)
+end
+
+--View's  Event
+function LoginPanelViewModel:ListenViewEvent(code, ...)
+    if code == LoginPanelViewEventType.LoginButton then
+        NetEvents.Register()
+    end
+end
+
+function LoginPanelViewModel:OnDispose()
+
+end
+
+return LoginPanelViewModel

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-16"?>
+<PanelGenData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <MapName>MVVMMap</MapName>
+  <ns />
+  <workspace>Assets/Project/Lua/UI</workspace>
+  <map>
+    <NameMap>
+      <panelName>LoadScenePanel</panelName>
+      <content>{ Name = PanelNames.LoadScenePanel,ViewType = require("UI.LoadScenePanel.LoadScenePanelView"), VMType = require("UI.LoadScenePanel.LoadScenePanelViewModel") },</content>
+    </NameMap>
+    <NameMap>
+      <panelName>LoginPanel</panelName>
+      <content>{ Name = PanelNames.LoginPanel,ViewType = require("UI.LoginPanel.LoginPanelView"), VMType = require("UI.LoginPanel.LoginPanelViewModel") },</content>
+    </NameMap>
+    <NameMap>
+      <panelName>MainPanel</panelName>
+      <content>{ Name = PanelNames.MainPanel,ViewType = require("UI.MainPanel.MainPanelView"), VMType = require("UI.MainPanel.MainPanelViewModel") },</content>
+    </NameMap>
+  </map>
+</PanelGenData>

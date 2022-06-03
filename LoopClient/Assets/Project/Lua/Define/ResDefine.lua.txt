@@ -1,0 +1,12 @@
+ResDefine = {
+    Scene = {
+        Login = "Assets/Project/Scenes/Login.unity",
+        Game = "Assets/Project/Scenes/Game.unity",
+    },
+    UIItem = {
+
+    },
+    Json = {
+
+    }
+}

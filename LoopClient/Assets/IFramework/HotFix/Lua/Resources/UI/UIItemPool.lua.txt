@@ -1,0 +1,30 @@
+---@class UIItemPool
+UIItemPool = class("UIItems")
+function UIItemPool:ctor(UI)
+    self.UI = UI
+end
+
+---@param path string
+---@param classType Unit
+---@param parent UnityEngine.Transform
+---@return UIItem
+function UIItemPool:Get(path, classType, parent)
+    local go = self.UI:GetItem(path)
+    ---@type UIItem
+    local instance = classType(go)
+    if parent then
+        instance:SetParent(parent)
+    end
+    go:SetActive(true)
+    instance:OnGet()
+    return instance
+end
+
+---@param path string
+---@param class UIItem
+function UIItemPool:Set(path, class)
+    local go = class.gameObject
+    UI:SetItem(path, go)
+    go:SetActive(false)
+    class:OnSet()
+end

@@ -1,0 +1,83 @@
+--*********************************************************************************
+--Author:         LoopClient
+--Version:        1.0
+--UnityVersion:   2020.3.30f1c1
+--Date:           2022-06-03
+--Description:    Description
+--History:        2022-06-03
+--*********************************************************************************
+
+---@type LoadScenePanelViewModelFields
+local LoadScenePanelViewModelFields = require("UI.LoadScenePanel.LoadScenePanelViewModelFields")
+---@type LoadScenePanelViewEventType
+local LoadScenePanelViewEventType = require("UI.LoadScenePanel.LoadScenePanelViewEventType")
+---@class LoadScenePanelViewModel : ViewModel
+local LoadScenePanelViewModel = class("LoadScenePanelViewModel",ViewModel)
+
+--return LoadScenePanelViewModel's Fields By table
+--Example return { myCount = 666 }
+function LoadScenePanelViewModel:GetFieldTable()
+    return {
+        [LoadScenePanelViewModelFields.progress] = 0,
+        [LoadScenePanelViewModelFields.prepare] = false
+    }
+end
+
+function LoadScenePanelViewModel:OnInitialize()
+    self.listenLoadScene = Events:Subscribe(LuaEventTypes.LoadScene, self.LoadScene, self)
+
+end
+function LoadScenePanelViewModel:LoadScene(path, callback)
+    if not path or path == "" then
+        return
+    end
+    self.path = path
+    self.callback = callback
+    self.SceneAsset = Assets.LoadSceneAssetAsync(path)
+
+    self.lifeEntity = LifeTimeEvent:Subscribe(LifeTimeEventType.Update, self.Update, self)
+    self.progress = 0
+    self.prepare = true
+end
+
+function LoadScenePanelViewModel:Update()
+    if self.AsyncOperation ~= nil then
+        self.progress = self.AsyncOperation.progress * 0.5 + 0.5
+        if self.AsyncOperation.isDone then
+            self.progress = 1
+            self.progress = 1
+            self.lifeEntity:Dispose()
+            if self.callback then
+                self.callback()
+            end
+
+            self.prepare = false
+            self.callback = nil
+            self.lifeEntity = nil
+            self.path = nil
+            self.AsyncOperation = nil
+            self.SceneAsset = nil
+        end
+        return
+    end
+    if self.SceneAsset ~= nil then
+        self.progress = self.SceneAsset.progress * 0.5
+        if self.SceneAsset.isDone then
+            local mode = CS.UnityEngine.SceneManagement.LoadSceneMode.Single
+            self.AsyncOperation = self.SceneAsset:LoadSceneAsync(mode)
+        end
+    end
+
+end
+--View's  Event 
+function LoadScenePanelViewModel:ListenViewEvent(code,...)
+
+end
+
+function LoadScenePanelViewModel:OnDispose()
+    if self.listenLoadScene then
+        self.listenLoadScene:Dispose()
+    end
+end
+
+return LoadScenePanelViewModel
