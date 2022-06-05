@@ -30,7 +30,11 @@ public static class NetServerHelper
     {
         Server.SendResponse<TResponse>(token, response);
     }
-
+    public static SocketToken? GetToken(long roleId)
+    {
+        var clientsData = Server.GetClientsData<NetPlayersData>();
+        return clientsData.GetSTokenByRoleId(roleId);
+    }
     public static void SendResponse<TResponse>(long roleId, TResponse response) where TResponse : IResponse
     {
         var clientsData = Server.GetClientsData<NetPlayersData>();

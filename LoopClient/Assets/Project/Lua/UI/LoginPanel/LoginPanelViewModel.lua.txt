@@ -23,7 +23,7 @@ function LoginPanelViewModel:GetFieldTable()
 end
 
 function LoginPanelViewModel:OnInitialize()
-    Events:Subscribe(LuaEventTypes.LoginSucess, self.OnLoginSucess, self)
+    self.listenEntity = Events:Subscribe(LuaEventTypes.LoginSucess, self.OnLoginSucess, self)
     self.HaveSaveData = NetEvents.HaveSaveData()
     if self.HaveSaveData then
         NetEvents.Login()
@@ -45,7 +45,7 @@ function LoginPanelViewModel:ListenViewEvent(code, ...)
 end
 
 function LoginPanelViewModel:OnDispose()
-
+    self.listenEntity:Dispose()
 end
 
 return LoginPanelViewModel

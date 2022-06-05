@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using System.Security.Cryptography;
-
+using Random = System.Random;
 namespace LoopSever.ServerCore.Utils;
 
 public static class StringUtils
@@ -61,7 +61,7 @@ public static class StringUtils
         byte[] b = new byte[4];
         // new System.Security.Cryptography.RNGCryptoServiceProvider().GetBytes(b);
         RandomNumberGenerator.Create().GetBytes(b);
-        Random r = new Random(BitConverter.ToInt32(b, 0));
+        System.Random r = new System.Random(BitConverter.ToInt32(b, 0));
         string s = "", str = custom;
         if (useNum == true)
         {

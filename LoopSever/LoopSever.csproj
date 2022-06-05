@@ -15,8 +15,4 @@
     <PackageReference Include="Yitter.IdGenerator" Version="1.0.12" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Project\Game\Handlers\" />
-  </ItemGroup>
-
 </Project>

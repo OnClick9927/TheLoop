@@ -6,6 +6,7 @@ using LoopSever.ServerCore.Plugins;
 using IFramework;
 using LoopSever.Project.Game.Peers.Item;
 using LoopSever.Project.Net;
+using LoopSever.Project.Game.Peers.Appearance;
 
 namespace LoopSever.Project.Game.Peers.Role
 {
@@ -14,37 +15,37 @@ namespace LoopSever.Project.Game.Peers.Role
     {
         public override async void OnRecieve(SocketToken sToken, IRequest request)
         {
-            CSRoleLogin cSRoleLogin = request as CSRoleLogin;
-            if (cSRoleLogin == null) return;
+            CSRoleLogin? req = request as CSRoleLogin;
+            if (req == null) return;
             RoleDB db = GetDB<RoleDB>();
-            SCRoleLogin roleLogin = new SCRoleLogin()
+            SCRoleLogin rsp = new SCRoleLogin()
             {
-                loginType = cSRoleLogin.loginType,
+                loginType = req.loginType,
             };
-            switch (cSRoleLogin.loginType)
+            switch (req.loginType)
             {
                 case LoginType.Login:
                     {
-                        var id = cSRoleLogin.RoleID;
-                        var Password = cSRoleLogin.Password;
+                        var id = req.RoleID;
+                        var Password = req.Password;
                         var find = await db.ExistRole(id);
                         if (find)
                         {
                             var _psd = Verifier.GetStringMD5(id.ToString());
                             if (_psd == Password)
                             {
-                                roleLogin.Code = LoginErrCode.Success;
-                                roleLogin.Password = Password;
-                                roleLogin.RoleID = id;
+                                rsp.Code = LoginErrCode.Success;
+                                rsp.Password = Password;
+                                rsp.RoleID = id;
                             }
                             else
                             {
-                                roleLogin.Code = LoginErrCode.PasswordErr;
+                                rsp.Code = LoginErrCode.PasswordErr;
                             }
                         }
                         else
                         {
-                            roleLogin.Code = LoginErrCode.NotExistRoleID;
+                            rsp.Code = LoginErrCode.NotExistRoleID;
                         }
                     }
                     break;
@@ -53,18 +54,19 @@ namespace LoopSever.Project.Game.Peers.Role
                         var id = IdGeneratorMgr.instance.CreateId();
                         var Password = Verifier.GetStringMD5(id.ToString());
                         await db.CreateRole(id);
-                        roleLogin.Code = LoginErrCode.Success;
-                        roleLogin.Password = Password;
-                        roleLogin.RoleID = id;
+                        rsp.Code = LoginErrCode.Success;
+                        rsp.Password = Password;
+                        rsp.RoleID = id;
                     }
                     break;
             }
-            SendResponse(sToken, roleLogin);
-            if (roleLogin.Code == LoginErrCode.Success)
+            SendResponse(sToken, rsp);
+            if (rsp.Code == LoginErrCode.Success)
             {
                 NetPlayersData netPlayers = ServerInstance.GetClientsData();
-                netPlayers.OnRoleLogIn(roleLogin.RoleID, sToken);
-                GetPeer<ItemCountPeer>()?.PushItems(roleLogin.RoleID);
+                netPlayers.OnRoleLogIn(rsp.RoleID, sToken);
+                GetPeer<ItemCountPeer>()?.PushItems(rsp.RoleID);
+                GetPeer<GetAppearancePeer>()?.PushAppearances(sToken, rsp.RoleID);
             }
         }
     }

@@ -5,7 +5,7 @@ function NetEvents.HaveSaveData()
 end
 
 function NetEvents.Register()
-    ---@type SCRoleLogin
+    ---@type CSRoleLogin
     local data = {}
     data.LoginType = NetEventDefine.Enums.LoginType.Signin
     NetEvents.SendRequest(NetEventDefine.CSRoleLogin, data)

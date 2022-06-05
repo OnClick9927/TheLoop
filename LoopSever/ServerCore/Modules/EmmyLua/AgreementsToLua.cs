@@ -135,7 +135,71 @@ namespace LoopSever.ServerCore.Modules.EmmyLua
 
             return string.Empty;
         }
+        private static string WriteFields(string result,string fieldName,Type type,List<Type> other)
+        {
+            var luaType = GetLuaType(type);
+            if (string.IsNullOrEmpty(luaType))
+            {
+                if (type.IsSubclassOfGeneric(typeof(List<>)))
+                {
+                    var eles = type.GetGenericArguments();
+                    var element_type = eles[0];
+                    var element_type_luaType = GetLuaType(element_type);
+                    if (string.IsNullOrEmpty(element_type_luaType))
+                    {
+                        luaType = $"{element_type.Name}[]";
+                        other.Add(element_type);
+                    }
+                    else
+                    {
+                        luaType = $"{element_type_luaType}[]";
+                    }
 
+                }
+                else if (type.IsArray)
+                {
+                    var element_type = type.GetElementType();
+                    var element_type_luaType = GetLuaType(element_type);
+                    if (string.IsNullOrEmpty(element_type_luaType))
+                    {
+                        luaType = $"{element_type.Name}[]";
+                        other.Add(element_type);
+                    }
+                    else
+                    {
+                        luaType = $"{element_type_luaType}[]";
+                    }
+
+                }
+                else if (type.IsSubclassOfGeneric(typeof(Dictionary<,>)))
+                {
+                    var eles = type.GetGenericArguments();
+                    var element_type_1 = eles[0];
+                    var element_type_2 = eles[1];
+                    var element_type_luaType_1 = GetLuaType(element_type_1);
+                    var element_type_luaType_2 = GetLuaType(element_type_2);
+                    if (string.IsNullOrEmpty(element_type_luaType_1))
+                    {
+                        other.Add(element_type_1);
+                        element_type_luaType_1 = element_type_1.Name;
+                    }
+                    if (string.IsNullOrEmpty(element_type_luaType_2))
+                    {
+                        other.Add(element_type_2);
+                        element_type_luaType_2 = element_type_2.Name;
+                    }
+                    luaType = $"table<{element_type_luaType_1},{element_type_luaType_2}>";
+                }
+                else
+                {
+                    luaType = type.Name;
+                    other.Add(type);
+                }
+
+            }
+            result += $"---@field {fieldName} {luaType}\n";
+            return result;
+        }
         private static string BuildString(Type type, string result, List<Type> other, List<Type> enumTypes)
         {
             string className = type.Name;
@@ -145,101 +209,12 @@ namespace LoopSever.ServerCore.Modules.EmmyLua
             {
                 result += $"\n";
                 var fileds = type.GetFields();
+                var ps = type.GetProperties();
 
                 foreach (var field in fileds)
-                {
-                    var _type = field.FieldType;
-                    var luaType = GetLuaType(_type);
-
-                    if (string.IsNullOrEmpty(luaType))
-                    {
-                        if (_type.IsSubclassOfGeneric(typeof(List<>)))
-                        {
-                            var eles = _type.GetGenericArguments();
-                            var element_type = eles[0];
-                            var element_type_luaType = GetLuaType(element_type);
-                            if (string.IsNullOrEmpty(element_type_luaType))
-                            {
-                                luaType = $"{element_type.Name}[]";
-                                other.Add(element_type);
-                            }
-                            else
-                            {
-                                luaType = $"{element_type_luaType}[]";
-                            }
-
-                        }
-                        else if (_type.IsArray)
-                        {
-                            var element_type = _type.GetElementType();
-                            var element_type_luaType = GetLuaType(element_type);
-                            if (string.IsNullOrEmpty(element_type_luaType))
-                            {
-                                luaType = $"{element_type.Name}[]";
-                                other.Add(element_type);
-                            }
-                            else
-                            {
-                                luaType = $"{element_type_luaType}[]";
-                            }
-
-                        }
-                        else if (_type.IsSubclassOfGeneric(typeof(Dictionary<,>)))
-                        {
-                            var eles = _type.GetGenericArguments();
-                            var element_type_1 = eles[0];
-                            var element_type_2 = eles[1];
-                            var element_type_luaType_1 = GetLuaType(element_type_1);
-                            var element_type_luaType_2 = GetLuaType(element_type_2);
-                            if (string.IsNullOrEmpty(element_type_luaType_1))
-                            {
-                                other.Add(element_type_1);
-                                element_type_luaType_1 = element_type_1.Name;
-                            }
-                            if (string.IsNullOrEmpty(element_type_luaType_2))
-                            {
-                                other.Add(element_type_2);
-                                element_type_luaType_2 = element_type_2.Name;
-                            }
-                            luaType = $"table<{element_type_luaType_1},{element_type_luaType_2}>";
-                        }
-                        else
-                        {
-                            luaType = _type.Name;
-                            other.Add(_type);
-                        }
-
-                    }
-                    result += $"---@field {field.Name} {luaType}\n";
-                }
-                var ps = type.GetProperties();
+                    result = WriteFields(result, field.Name, field.FieldType, other);
                 foreach (var p in ps)
-                {
-                    var _type = p.PropertyType;
-                    var luaType = GetLuaType(_type);
-
-                    if (string.IsNullOrEmpty(luaType))
-                    {
-                        if (_type.IsSubclassOfGeneric(typeof(List<>)))
-                        {
-                            var eles = _type.GetGenericArguments();
-                            _type = eles[0].MakeArrayType();
-                        }
-                        if (_type.IsArray)
-                        {
-                            var element_type = _type.GetElementType();
-                            luaType = $"{element_type.Name}[]";
-                            other.Add(element_type);
-                        }
-
-                        else
-                        {
-                            luaType = _type.Name;
-                            other.Add(_type);
-                        }
-                    }
-                    result += $"---@field {p.Name} {luaType}\n";
-                }
+                    result = WriteFields(result, p.Name, p.PropertyType, other);
             }
             else
             {

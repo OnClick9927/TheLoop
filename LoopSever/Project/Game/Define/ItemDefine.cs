@@ -3,6 +3,11 @@ using LoopSever.ServerCore.Modules.NetCore;
 
 namespace LoopSever.Project.Game.Define;
 
+public class ItemDic
+{
+    public Dictionary<long, int> items { get; set; }
+
+}
 
 [NetMessageCode(ModuleDefine.Item, 1)]
 public class CSItemCount : IRequest
@@ -14,12 +19,12 @@ public class CSItemCount : IRequest
 public class SPItemCount : IResponse
 {
     public int Code { get; set; }
-    public Dictionary<long, int> items;
+    public ItemDic items { get; set; }
 }
 
 [NetMessageCode(ModuleDefine.Item, 2)]
 public class SPItemCountChange : IResponse
 {
     public int Code { get; set; }
-    public Dictionary<long, int> items;
+    public ItemDic items { get; set; }
 }
