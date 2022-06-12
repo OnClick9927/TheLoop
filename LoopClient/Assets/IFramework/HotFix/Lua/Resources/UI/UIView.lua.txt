@@ -39,14 +39,6 @@ function UIView:Hide()
     self.panel:Hide()
 end
 
-function UIView:Pause()
-    self.panel:Pause()
-end
-
-function UIView:Resume()
-    self.panel:Resume()
-end
-
 ------------------------------------以下是回调-------------------------------
 function UIView:BindProperty() end
 
@@ -55,9 +47,5 @@ function UIView:OnLoad() end
 function UIView:OnShow() end
 
 function UIView:OnHide() end
-
-function UIView:OnPause() end
-
-function UIView:OnResume() end
 
 function UIView:OnClose() end

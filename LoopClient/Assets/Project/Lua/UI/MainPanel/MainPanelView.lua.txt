@@ -39,14 +39,6 @@ function MainPanelView:OnHide()
 
 end
 
-function MainPanelView:OnPause()
-
-end
-
-function MainPanelView:OnResume()
-
-end
-
 function MainPanelView:OnClose()
 	self.Controls = nil
 end

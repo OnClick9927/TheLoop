@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3165909212848872713}
   - component: {fileID: 3165909212848872712}
   - component: {fileID: 3165909212848872719}
-  - component: {fileID: 3165909212848872718}
+  - component: {fileID: 6851041783925149269}
   m_Layer: 5
   m_Name: LoginPanel
   m_TagString: Untagged
@@ -90,7 +90,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &3165909212848872718
+--- !u!114 &6851041783925149269
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -99,7 +99,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3165909212848872714}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bc3135dccb74094ba1860e0e64fe37f, type: 3}
+  m_Script: {fileID: 11500000, guid: 13a4f9c99d05d3943bacfcef3be7b868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &3165909212894183265

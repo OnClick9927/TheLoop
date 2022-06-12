@@ -10,7 +10,7 @@ using LuaCSFunction = XLua.LuaDLL.lua_CSFunction;
 
 using XLua;
 using System.Collections.Generic;
-using IFramework;
+
 
 namespace XLua.CSObjectWrap
 {
@@ -21,12 +21,9 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(LoopClient.LoopClientUpdate);
-			Utils.BeginObjectRegister(type, L, translator, 0, 10, 0, 0);
+			Utils.BeginObjectRegister(type, L, translator, 0, 7, 0, 0);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Check", _m_Check);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "MakeComponentExist", _m_MakeComponentExist);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "RmoveComponent", _m_RmoveComponent);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "LocalIdentity", _m_LocalIdentity);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "downLoadProgress", _e_downLoadProgress);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "beginDownLoad", _e_beginDownLoad);
@@ -100,89 +97,6 @@ namespace XLua.CSObjectWrap
                     
                     
                     return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_MakeComponentExist(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                LoopClient.LoopClientUpdate gen_to_be_invoked = (LoopClient.LoopClientUpdate)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    
-                        UnityEngine.Component gen_ret = gen_to_be_invoked.MakeComponentExist(  );
-                        translator.Push(L, gen_ret);
-                    
-                    
-                    
-                    return 1;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_RmoveComponent(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                LoopClient.LoopClientUpdate gen_to_be_invoked = (LoopClient.LoopClientUpdate)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    
-                    gen_to_be_invoked.RmoveComponent(  );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_LocalIdentity(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                LoopClient.LoopClientUpdate gen_to_be_invoked = (LoopClient.LoopClientUpdate)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    
-                        UnityEngine.Component gen_ret = gen_to_be_invoked.LocalIdentity(  );
-                        translator.Push(L, gen_ret);
-                    
-                    
-                    
-                    return 1;
                 }
                 
             } catch(System.Exception gen_e) {

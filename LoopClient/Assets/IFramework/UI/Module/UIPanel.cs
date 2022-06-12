@@ -13,14 +13,11 @@ namespace IFramework.UI
     /// ui 基类
     /// </summary>
     [RequireComponent(typeof(CanvasGroup))]
-    public abstract class UIPanel : MonoBehaviour
+    public class UIPanel : MonoBehaviour
     {
 
         private CanvasGroup _group;
         private RectTransform _rect;
-        public IUIModule module { get; set; }
-
-
         public RectTransform rectTransform
         {
             get
@@ -44,33 +41,7 @@ namespace IFramework.UI
                 return _group;
             }
         }
-        public void SetArgs(IEventArgs args)
-        {
-            this.module.SetArg(this.name, args);
-        }
-        public void RemoveArg()
-        {
-            this.module.RemoveArg(this.name);
-        }
-        public IEventArgs GetArg()
-        {
-            return this.module.GetArg(this.name);
-        }
 
-        /// <summary>
-        /// 使ui不响应事件
-        /// </summary>
-        public void Pause()
-        {
-            group.interactable = false;
-        }
-        /// <summary>
-        /// 使ui响应事件
-        /// </summary>
-        public void Resume()
-        {
-            group.interactable = true;
-        }
         /// <summary>
         /// 把ui藏起来
         /// </summary>

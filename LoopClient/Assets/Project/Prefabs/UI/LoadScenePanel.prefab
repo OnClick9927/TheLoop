@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 529743798554372106}
   - component: {fileID: 529743798554372107}
   - component: {fileID: 529743798554372111}
-  - component: {fileID: 2205507046378188611}
+  - component: {fileID: 4489006442096934286}
   m_Layer: 5
   m_Name: LoadScenePanel
   m_TagString: Untagged
@@ -240,7 +240,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &2205507046378188611
+--- !u!114 &4489006442096934286
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,7 +249,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 529743798554372105}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bc3135dccb74094ba1860e0e64fe37f, type: 3}
+  m_Script: {fileID: 11500000, guid: 13a4f9c99d05d3943bacfcef3be7b868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &529743799158338338

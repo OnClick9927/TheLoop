@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(IFramework.UI.UIModule);
-			Utils.BeginObjectRegister(type, L, translator, 0, 20, 1, 0);
+			Utils.BeginObjectRegister(type, L, translator, 0, 13, 1, 0);
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetItem", _m_GetItem);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetItem", _m_SetItem);
@@ -33,15 +33,8 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetGroups", _m_SetGroups);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetLayerConfig", _m_SetLayerConfig);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "PutCamera", _m_PutCamera);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "SetArg", _m_SetArg);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "RemoveArg", _m_RemoveArg);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "GetArg", _m_GetArg);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Find", _m_Find);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Load", _m_Load);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Show", _m_Show);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Hide", _m_Hide);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Pause", _m_Pause);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Resume", _m_Resume);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Close", _m_Close);
 			
 			
@@ -374,150 +367,6 @@ namespace XLua.CSObjectWrap
         }
         
         [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_SetArg(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                IFramework.UI.UIModule gen_to_be_invoked = (IFramework.UI.UIModule)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    string _name = LuaAPI.lua_tostring(L, 2);
-                    IFramework.IEventArgs _arg = (IFramework.IEventArgs)translator.GetObject(L, 3, typeof(IFramework.IEventArgs));
-                    
-                    gen_to_be_invoked.SetArg( _name, _arg );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_RemoveArg(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                IFramework.UI.UIModule gen_to_be_invoked = (IFramework.UI.UIModule)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    string _name = LuaAPI.lua_tostring(L, 2);
-                    
-                    gen_to_be_invoked.RemoveArg( _name );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_GetArg(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                IFramework.UI.UIModule gen_to_be_invoked = (IFramework.UI.UIModule)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    string _name = LuaAPI.lua_tostring(L, 2);
-                    
-                        IFramework.IEventArgs gen_ret = gen_to_be_invoked.GetArg( _name );
-                        translator.PushAny(L, gen_ret);
-                    
-                    
-                    
-                    return 1;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_Find(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                IFramework.UI.UIModule gen_to_be_invoked = (IFramework.UI.UIModule)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    string _name = LuaAPI.lua_tostring(L, 2);
-                    
-                        IFramework.UI.UIPanel gen_ret = gen_to_be_invoked.Find( _name );
-                        translator.Push(L, gen_ret);
-                    
-                    
-                    
-                    return 1;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_Load(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                IFramework.UI.UIModule gen_to_be_invoked = (IFramework.UI.UIModule)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    string _name = LuaAPI.lua_tostring(L, 2);
-                    System.Action<IFramework.UI.UIPanel> _callback = translator.GetDelegate<System.Action<IFramework.UI.UIPanel>>(L, 3);
-                    
-                    gen_to_be_invoked.Load( _name, _callback );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
         static int _m_Show(RealStatePtr L)
         {
 		    try {
@@ -561,62 +410,6 @@ namespace XLua.CSObjectWrap
                     string _name = LuaAPI.lua_tostring(L, 2);
                     
                     gen_to_be_invoked.Hide( _name );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_Pause(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                IFramework.UI.UIModule gen_to_be_invoked = (IFramework.UI.UIModule)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    string _name = LuaAPI.lua_tostring(L, 2);
-                    
-                    gen_to_be_invoked.Pause( _name );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_Resume(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                IFramework.UI.UIModule gen_to_be_invoked = (IFramework.UI.UIModule)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    string _name = LuaAPI.lua_tostring(L, 2);
-                    
-                    gen_to_be_invoked.Resume( _name );
                     
                     
                     

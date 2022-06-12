@@ -7,8 +7,6 @@
  *History:        2022-04-08--
 *********************************************************************************/
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using IFramework;
 using IFramework.Hotfix.Asset;
 using IFramework.Hotfix.Lua;
@@ -16,19 +14,6 @@ using IFramework.UI;
 using UnityEngine;
 namespace LoopClient
 {
-    [CreateAssetMenu]
-    public class LoopClientPanelConfig_RT
-    {
-        [System.Serializable]
-        public class Data
-        {
-            public string panelName;
-            public UILayer layer = UILayer.Common;
-            public int layerOrder = 0;
-        }
-        [SerializeField] public List<Data> datas = new List<Data>();
-    }
-    [RequireComponent(typeof(LoopClientUpdate))]
     public class LoopClientGame : Game
     {
         public string ip = "127.0.0.1";
@@ -112,12 +97,12 @@ namespace LoopClient
         {
             LoopClientPerfs.SetKey(playerPrefsKey);
             Application.targetFrameRate = 60;
-            update = GetComponent<LoopClientUpdate>();
+            update = new LoopClientUpdate();
             unityModules.UpdateUI.CreateCanvas();
             unityModules.UpdateUI.SetGroups(new MvvmGroups(UIMap_MVVM.map));
             unityModules.UpdateUI.AddLoader(new UIUpdateLoader());
             unityModules.UpdateUI.Show(UIMap_MVVM.UpdatePanel);
-            unityModules.UpdateUI.canvas.transform.parent = transform;
+            unityModules.UpdateUI.canvas.transform.SetParent(this.transform, true);
 
             unityModules.Audio.root.transform.parent = transform;
 
@@ -129,7 +114,7 @@ namespace LoopClient
         {
             LoopClientPerfs.Save<AudioSaveData>("AudioSaveData", unityModules.Audio.GetSaveData());
         }
-        public async override void Startup()
+        public override void Startup()
         {
             update.Check();
         }
@@ -140,7 +125,7 @@ namespace LoopClient
 
             var asset = await Assets.LoadAsset("Assets/Project/Configs/Json/UI.json");
             TextAsset txt = asset.GetAsset<TextAsset>();
-           
+
             LoopClientPanelConfig_RT _configs = JsonUtility.FromJson<LoopClientPanelConfig_RT>(txt.text);
 
             UILayerConfig[] configs = new UILayerConfig[_configs.datas.Count];
@@ -157,11 +142,11 @@ namespace LoopClient
             unityModules.UI.PutCamera(Camera.main);
             unityModules.UI.AddLoader(new UILoader());
             unityModules.UI.SetLayerConfig(configs);
-            unityModules.UI.canvas.transform.parent = this.transform;
+            unityModules.UI.canvas.transform.SetParent(this.transform, true);
             unityModules.UI.canvas.worldCamera = Camera.main;
             unityModules.UI.SetItemLoader(LoadItem);
             Camera.main.transform.SetParent(this.transform, true);
-            tcp = new TcpClient(ip,port);
+            tcp = new TcpClient(ip, port);
             StartLua();
             await tcp.Connect();
         }

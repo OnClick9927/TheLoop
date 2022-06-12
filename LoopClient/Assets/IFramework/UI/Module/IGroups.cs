@@ -48,16 +48,6 @@ namespace IFramework.UI
         /// <param name="name"></param>
         void OnHide(string name);
         /// <summary>
-        /// 要求挂起
-        /// </summary>
-        /// <param name="name"></param>
-        void OnPause(string name);
-        /// <summary>
-        /// 要求重启
-        /// </summary>
-        /// <param name="name"></param>
-        void OnResume(string name);
-        /// <summary>
         /// 要求关闭
         /// </summary>
         /// <param name="name"></param>

@@ -494,14 +494,6 @@ namespace IFramework.UI
             "\t\t{\n" +
             "\t\t}\n" +
             "\n" +
-             "\t\tprotected override void OnPause()\n" +
-            "\t\t{\n" +
-            "\t\t}\n" +
-            "\n" +
-             "\t\tprotected override void OnResume()\n" +
-            "\t\t{\n" +
-            "\t\t}\n" +
-            "\n" +
             "\t\tprotected override void OnClose()\n" +
             "\t\t{\n" +
             "\t\t}\n" +

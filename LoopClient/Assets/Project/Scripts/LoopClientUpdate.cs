@@ -17,19 +17,7 @@ using static IFramework.Hotfix.Asset.Assets;
 
 namespace LoopClient
 {
-    public class LoopClientAssetsSetting : AssetsSetting
-    {
-        public override string GetUrlByBundleName(string buildTarget, string bundleName)
-        {
-            return "";
-        }
-
-        public override string GetVersionUrl()
-        {
-            return "";
-        }
-    }
-    public class LoopClientUpdate : MonoBehaviour
+    public class LoopClientUpdate 
     {
         public event Action<float> downLoadProgress;
         public event Action beginDownLoad;
@@ -72,7 +60,7 @@ namespace LoopClient
             await Assets.InitAsync();
             var paths = Assets.GetAllAssetPaths();
             var prepareOP = Assets.PrepareAssets(paths.ToArray());
-            StartCoroutine(CallProgress(prepareOP));
+            Launcher.Instance.StartCoroutine(CallProgress(prepareOP));
         }
         private IEnumerator CallProgress(AssetsGroupOperation prepareOP)
         {

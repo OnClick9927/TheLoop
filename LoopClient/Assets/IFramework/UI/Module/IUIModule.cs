@@ -6,22 +6,17 @@ namespace IFramework.UI
     public interface IUIModule
     {
         Canvas canvas { get; }
-        void AddLoader(IPanelLoader loader);
-        void Close(string name);
-        void CreateCanvas();
-        UIPanel Find(string name);
-        void Hide(string name);
-        void Load(string name, Action<UIPanel> callback);
-        void Pause(string name);
-        void PutCamera(Camera camera);
-        void SetCanvas(Canvas canvas);
-        void SetGroups(IGroups groups);
-        void Show(string name);
-        void Resume(string name);
-        void SetArg(string name, IEventArgs arg);
-        void RemoveArg(string name);
         void SetLayerConfig(UILayerConfig[] config);
-        IEventArgs GetArg(string name);
+        void AddLoader(IPanelLoader loader);
+        void SetGroups(IGroups groups);
+        void CreateCanvas();
+        void SetCanvas(Canvas canvas);
+        void PutCamera(Camera camera);
+
+        void Hide(string name);
+        void Show(string name);
+        void Close(string name);
+
 
         GameObject GetItem(string name);
         void SetItem(string name, GameObject go);

@@ -30,13 +30,6 @@ namespace IFramework.UI.Example
 			this.Hide();
 		}
 
-		protected override void OnPause()
-		{
-		}
-
-		protected override void OnResume()
-		{
-		}
 
 		protected override void OnClose()
 		{

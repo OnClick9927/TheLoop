@@ -40,14 +40,6 @@ function LoginPanelView:OnHide()
 
 end
 
-function LoginPanelView:OnPause()
-
-end
-
-function LoginPanelView:OnResume()
-
-end
-
 function LoginPanelView:OnClose()
 	self:UnBindButton(self.Controls.Login)
 	self.Controls = nil

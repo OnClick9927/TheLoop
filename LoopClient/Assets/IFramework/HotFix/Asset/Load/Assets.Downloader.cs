@@ -68,8 +68,11 @@ namespace IFramework.Hotfix.Asset
                     }
                     await Task.Yield();
                 }
-
+#if UNITY_2020_1_OR_NEWER
+                if (req.result == UnityWebRequest.Result.ConnectionError || req.result == UnityWebRequest.Result.ProtocolError)
+#else
                 if (req.isHttpError || req.isNetworkError)
+#endif
                 {
                     req.Dispose();
                     Failed(req.error);

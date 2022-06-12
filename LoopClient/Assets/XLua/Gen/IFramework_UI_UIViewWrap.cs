@@ -21,10 +21,8 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(IFramework.UI.UIView);
-			Utils.BeginObjectRegister(type, L, translator, 0, 2, 2, 1);
+			Utils.BeginObjectRegister(type, L, translator, 0, 0, 2, 1);
 			
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Pause", _m_Pause);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "Resume", _m_Resume);
 			
 			
 			Utils.RegisterFunc(L, Utils.GETTER_IDX, "lastState", _g_get_lastState);
@@ -58,60 +56,6 @@ namespace XLua.CSObjectWrap
         
         
         
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_Pause(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                IFramework.UI.UIView gen_to_be_invoked = (IFramework.UI.UIView)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    
-                    gen_to_be_invoked.Pause(  );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _m_Resume(RealStatePtr L)
-        {
-		    try {
-            
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-            
-            
-                IFramework.UI.UIView gen_to_be_invoked = (IFramework.UI.UIView)translator.FastGetCSObj(L, 1);
-            
-            
-                
-                {
-                    
-                    gen_to_be_invoked.Resume(  );
-                    
-                    
-                    
-                    return 0;
-                }
-                
-            } catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-            
-        }
         
         
         

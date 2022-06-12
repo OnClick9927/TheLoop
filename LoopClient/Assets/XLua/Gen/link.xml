@@ -22,10 +22,10 @@
 		<type fullname="LoopClient.AudioModule" preserve="all"/>
 		<type fullname="LoopClient.ButtonClickSound" preserve="all"/>
 		<type fullname="LoopClient.GameTools" preserve="all"/>
-		<type fullname="LoopClient.LoopClientPanelConfig_RT" preserve="all"/>
-		<type fullname="LoopClient.LoopClientGame" preserve="all"/>
-		<type fullname="LoopClient.LoopClientPerfs" preserve="all"/>
 		<type fullname="LoopClient.LoopClientAssetsSetting" preserve="all"/>
+		<type fullname="LoopClient.LoopClientGame" preserve="all"/>
+		<type fullname="LoopClient.LoopClientPanelConfig_RT" preserve="all"/>
+		<type fullname="LoopClient.LoopClientPerfs" preserve="all"/>
 		<type fullname="LoopClient.LoopClientUpdate" preserve="all"/>
 		<type fullname="LoopClient.ImageRaycastAlphaFitter" preserve="all"/>
 		<type fullname="LoopClient.UILoader" preserve="all"/>
@@ -84,7 +84,6 @@
 		<type fullname="IFramework.Hotfix.Lua.XLuaModule" preserve="all"/>
 		<type fullname="IFramework.Hotfix.Lua.XluaMain" preserve="all"/>
 		<type fullname="IFramework.Hotfix.Lua.LuaGroups" preserve="all"/>
-		<type fullname="IFramework.Hotfix.Lua.LuaPanel" preserve="all"/>
 		<type fullname="IFramework.Hotfix.Lua.AssetsLoader" preserve="all"/>
 		<type fullname="IFramework.Hotfix.Lua.LuaGame" preserve="all"/>
 		<type fullname="IFramework.Hotfix.Asset.AssetsSetting" preserve="all"/>
@@ -104,8 +103,8 @@
 		<type fullname="IFramework.Hotfix.Asset.AssetExample" preserve="all"/>
 		<type fullname="IFramework.Singleton.MonoSingletonPath" preserve="all"/>
 		<type fullname="Tutorial.CSCallLua+DClass" preserve="all"/>
-		<type fullname="LoopClient.LoopClientPanelConfig_RT+Data" preserve="all"/>
 		<type fullname="LoopClient.LoopClientGame+UnityModules" preserve="all"/>
+		<type fullname="LoopClient.LoopClientPanelConfig_RT+Data" preserve="all"/>
 		<type fullname="IFramework.IAwaterEx+ResourceRequestAwaiter" preserve="all"/>
 		<type fullname="IFramework.IAwaterEx+AsyncOperationAwaiter" preserve="all"/>
 		<type fullname="IFramework.UI.SuperScrollView.LoopListView+PrefabConfData" preserve="all"/>

@@ -297,7 +297,7 @@ namespace IFramework.Hotfix.Lua
 
 
             public static string head = "--*********************************************************************************\n" +
-              "--Author:         " + EditorTools.ProjectConfig.NameSpace + "\n" +
+              "--Author:         " + EditorTools.ProjectConfig.UserName + "\n" +
               "--Version:        " + EditorTools.ProjectConfig.Version + "\n" +
               "--UnityVersion:   " + Application.unityVersion + "\n" +
               "--Date:           " + DateTime.Now.ToString("yyyy-MM-dd") + "\n" +
@@ -339,12 +339,6 @@ namespace IFramework.Hotfix.Lua
              "" + "\n" +
              "end\n" + "\n" +
              "function " + "#PanelName#View" + ":OnHide()" + "\n" +
-             "" + "\n" +
-             "end\n" + "\n" +
-             "function " + "#PanelName#View" + ":OnPause()" + "\n" +
-             "" + "\n" +
-             "end\n" + "\n" +
-             "function " + "#PanelName#View" + ":OnResume()" + "\n" +
              "" + "\n" +
              "end\n" + "\n" +
              "function " + "#PanelName#View" + ":OnClose()" + "\n" +

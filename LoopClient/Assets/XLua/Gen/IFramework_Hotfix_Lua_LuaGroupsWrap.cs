@@ -21,7 +21,7 @@ namespace XLua.CSObjectWrap
         {
 			ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
 			System.Type type = typeof(IFramework.Hotfix.Lua.LuaGroups);
-			Utils.BeginObjectRegister(type, L, translator, 0, 10, 0, 0);
+			Utils.BeginObjectRegister(type, L, translator, 0, 8, 0, 0);
 			
 			
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "onDispose", _e_onDispose);
@@ -31,8 +31,6 @@ namespace XLua.CSObjectWrap
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "onLoad", _e_onLoad);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "onShow", _e_onShow);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "onHide", _e_onHide);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "onPause", _e_onPause);
-			Utils.RegisterFunc(L, Utils.METHOD_IDX, "onResume", _e_onResume);
 			Utils.RegisterFunc(L, Utils.METHOD_IDX, "onClose", _e_onClose);
 			
 			
@@ -323,74 +321,6 @@ namespace XLua.CSObjectWrap
                 return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
             }
 			LuaAPI.luaL_error(L, "invalid arguments to IFramework.Hotfix.Lua.LuaGroups.onHide!");
-            return 0;
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _e_onPause(RealStatePtr L)
-        {
-		    try {
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    int gen_param_count = LuaAPI.lua_gettop(L);
-			IFramework.Hotfix.Lua.LuaGroups gen_to_be_invoked = (IFramework.Hotfix.Lua.LuaGroups)translator.FastGetCSObj(L, 1);
-                System.Action<string> gen_delegate = translator.GetDelegate<System.Action<string>>(L, 3);
-                if (gen_delegate == null) {
-                    return LuaAPI.luaL_error(L, "#3 need System.Action<string>!");
-                }
-				
-				if (gen_param_count == 3)
-				{
-					
-					if (LuaAPI.xlua_is_eq_str(L, 2, "+")) {
-						gen_to_be_invoked.onPause += gen_delegate;
-						return 0;
-					} 
-					
-					
-					if (LuaAPI.xlua_is_eq_str(L, 2, "-")) {
-						gen_to_be_invoked.onPause -= gen_delegate;
-						return 0;
-					} 
-					
-				}
-			} catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-			LuaAPI.luaL_error(L, "invalid arguments to IFramework.Hotfix.Lua.LuaGroups.onPause!");
-            return 0;
-        }
-        
-        [MonoPInvokeCallbackAttribute(typeof(LuaCSFunction))]
-        static int _e_onResume(RealStatePtr L)
-        {
-		    try {
-                ObjectTranslator translator = ObjectTranslatorPool.Instance.Find(L);
-			    int gen_param_count = LuaAPI.lua_gettop(L);
-			IFramework.Hotfix.Lua.LuaGroups gen_to_be_invoked = (IFramework.Hotfix.Lua.LuaGroups)translator.FastGetCSObj(L, 1);
-                System.Action<string> gen_delegate = translator.GetDelegate<System.Action<string>>(L, 3);
-                if (gen_delegate == null) {
-                    return LuaAPI.luaL_error(L, "#3 need System.Action<string>!");
-                }
-				
-				if (gen_param_count == 3)
-				{
-					
-					if (LuaAPI.xlua_is_eq_str(L, 2, "+")) {
-						gen_to_be_invoked.onResume += gen_delegate;
-						return 0;
-					} 
-					
-					
-					if (LuaAPI.xlua_is_eq_str(L, 2, "-")) {
-						gen_to_be_invoked.onResume -= gen_delegate;
-						return 0;
-					} 
-					
-				}
-			} catch(System.Exception gen_e) {
-                return LuaAPI.luaL_error(L, "c# exception:" + gen_e);
-            }
-			LuaAPI.luaL_error(L, "invalid arguments to IFramework.Hotfix.Lua.LuaGroups.onResume!");
             return 0;
         }
         

@@ -13,76 +13,34 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace IFramework.UI
 {
-
-    public partial class UIModule : UpdateModule, IUIModule
+    public class UIModule : UpdateModule, IUIModule
     {
         public Canvas canvas { get; private set; }
         private IGroups _groups;
         private List<IPanelLoader> _loaders;
         private Dictionary<UILayer, List<UIPanel>> _panelOrders;
         private Dictionary<UILayer, RectTransform> _layers;
-        private Dictionary<string, IEventArgs> _args;
         private Dictionary<string, UILayerConfig> _layerSettings;
         private Queue<LoadPanelAsyncOperation> asyncLoadQueue;
         private UIItemsPool _itemPool;
         private Func<string, GameObject> loadPrefab;
         private Action<string> releaseAsset;
+        private List<UIPanel> _orderHelp = new List<UIPanel>();
+
         protected override void Awake()
         {
             _loaders = new List<IPanelLoader>();
             _panelOrders = new Dictionary<UILayer, List<UIPanel>>();
-            _args = new Dictionary<string, IEventArgs>();
             _layerSettings = new Dictionary<string, UILayerConfig>();
             _layers = new Dictionary<UILayer, RectTransform>();
             asyncLoadQueue = new Queue<LoadPanelAsyncOperation>();
             _itemPool = new UIItemsPool(LoadItem, SetItem, GetItem, ClearItem, RelaseAsset);
         }
-
-        private void RelaseAsset(string obj)
-        {
-            releaseAsset?.Invoke(obj);
-        }
-
-        private void GetItem(GameObject obj, string name) { }
-
-        private void SetItem(GameObject obj, string name)
-        {
-            var parent = GetLayerParent(UILayer.Items);
-            obj.transform.SetParent(parent, false);
-        }
-
-        private void ClearItem(GameObject obj, string name)
-        {
-            GameObject.Destroy(obj);
-        }
-        private GameObject LoadItem(string name)
-        {
-            return loadPrefab?.Invoke(name);
-        }
-
-        public GameObject GetItem(string name)
-        {
-            return _itemPool.Get(name);
-        }
-        public void SetItem(string name, GameObject go)
-        {
-            _itemPool.Set(name, go);
-        }
-        public void SetItemLoader(Func<string, GameObject> loader)
-        {
-            this.loadPrefab = loader;
-        }
-        public void SetReleaseAsset(Action<string> releaseAsset)
-        {
-            this.releaseAsset = releaseAsset;
-        }
-
         protected override void OnDispose()
         {
             if (_groups != null)
                 _groups.Dispose();
             asyncLoadQueue.Clear();
-            _args.Clear();
             _loaders.Clear();
             _layers.Clear();
             if (canvas != null)
@@ -93,6 +51,8 @@ namespace IFramework.UI
         {
             CheckAsyncLoad();
         }
+
+
         private RectTransform CreateLayer(string name)
         {
             GameObject go = new GameObject(name);
@@ -105,7 +65,6 @@ namespace IFramework.UI
             rect.LocalIdentity();
             return rect;
         }
-
         private void CreateLayers()
         {
             var names = Enum.GetValues(typeof(UILayer));
@@ -123,7 +82,6 @@ namespace IFramework.UI
         {
             return _layers[layer];
         }
-        private List<UIPanel> _orderHelp = new List<UIPanel>();
         private void SetOrder(UIPanel panel)
         {
             UILayer layer = GetPanelLayer(panel);
@@ -180,9 +138,107 @@ namespace IFramework.UI
         }
 
 
-    }
-    partial class UIModule
-    {
+
+        private void RelaseAsset(string obj)
+        {
+            releaseAsset?.Invoke(obj);
+        }
+        private void GetItem(GameObject obj, string name) { }
+        private void SetItem(GameObject obj, string name)
+        {
+            var parent = GetLayerParent(UILayer.Items);
+            obj.transform.SetParent(parent, false);
+        }
+        private void ClearItem(GameObject obj, string name)
+        {
+            GameObject.Destroy(obj);
+        }
+        private GameObject LoadItem(string name)
+        {
+            return loadPrefab?.Invoke(name);
+        }
+
+
+        private void UILoadComplete(UIPanel ui, string name, Action<UIPanel> callback)
+        {
+            if (ui != null)
+            {
+                ui = UnityEngine.Object.Instantiate(ui, GetLayerParent(GetPanelLayer(ui)));
+                ui.name = name;
+                SetOrder(ui);
+                _groups.Subscribe(ui);
+                _groups.OnLoad(name);
+            }
+            callback?.Invoke(ui);
+        }
+        private void CheckAsyncLoad()
+        {
+            if (asyncLoadQueue.Count == 0) return;
+            while (asyncLoadQueue.Count > 0 && asyncLoadQueue.Peek().isDone)
+            {
+                LoadPanelAsyncOperation op = asyncLoadQueue.Dequeue();
+                UILoadComplete(op.panel, op.panelName, op.callback);
+                op.SetToDefault();
+                op.GlobalRecyle();
+            }
+        }
+        private void OnShowCallBack(UIPanel panel)
+        {
+            if (panel == null) return;
+            string name = panel.name;
+            this._groups.OnShow(name);
+        }
+        private UIPanel Find(string name)
+        {
+            return _groups.FindPanel(name);
+        }
+        private void Load(string name, Action<UIPanel> callback)
+        {
+            if (_groups == null)
+                throw new Exception("Please Set IGroups First");
+            if (_loaders == null || _loaders.Count == 0)
+                throw new Exception("Please Set UILoader First");
+            for (int i = 0; i < _loaders.Count; i++)
+            {
+                var result = _loaders[i].Load(ref name);
+                if (result == null) continue;
+                UILoadComplete(result, name, callback);
+                return;
+            }
+            LoadPanelAsyncOperation op = Framework.GlobalAllocate<LoadPanelAsyncOperation>();
+            op.callback = callback;
+            op.panelName = name;
+            for (int i = 0; i < _loaders.Count; i++)
+            {
+                if (_loaders[i].LoadAsync(ref name, op))
+                {
+                    asyncLoadQueue.Enqueue(op);
+                    return;
+                }
+            }
+            throw new Exception($"Can't load ui with Name: {name}");
+        }
+
+
+
+        public GameObject GetItem(string name)
+        {
+            return _itemPool.Get(name);
+        }
+        public void SetItem(string name, GameObject go)
+        {
+            _itemPool.Set(name, go);
+        }
+        public void SetItemLoader(Func<string, GameObject> loader)
+        {
+            this.loadPrefab = loader;
+        }
+        public void SetReleaseAsset(Action<string> releaseAsset)
+        {
+            this.releaseAsset = releaseAsset;
+        }
+
+
         /// <summary>
         /// 创建 画布
         /// </summary>
@@ -236,8 +292,6 @@ namespace IFramework.UI
                 }
             }
         }
-
-
         /// <summary>
         /// 放置相机到 ui模块的 camera 层级
         /// </summary>
@@ -245,117 +299,6 @@ namespace IFramework.UI
         public void PutCamera(Camera camera)
         {
             camera.transform.SetParent(GetLayerParent(UILayer.AboveTop));
-        }
-        /// <summary>
-        /// shezhi参数
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="arg"></param>
-        public void SetArg(string name, IEventArgs arg)
-        {
-            if (_args.ContainsKey(name))
-            {
-                _args[name] = arg;
-            }
-            else
-            {
-                _args.Add(name, arg);
-            }
-        }
-        /// <summary>
-        /// 移除参数
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="arg"></param>
-        public void RemoveArg(string name)
-        {
-            if (_args.ContainsKey(name))
-            {
-                _args.Remove(name);
-            }
-        }
-        /// <summary>
-        /// 获取参数
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public IEventArgs GetArg(string name)
-        {
-            if (_args.ContainsKey(name))
-            {
-                return _args[name];
-            }
-            return null;
-        }
-
-
-
-
-        /// <summary>
-        /// 查找 ui
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public UIPanel Find(string name)
-        {
-            return _groups.FindPanel(name);
-        }
-        /// <summary>
-        /// 加载 ui 
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public void Load(string name, Action<UIPanel> callback)
-        {
-            if (_groups == null)
-                throw new Exception("Please Set IGroups First");
-            if (_loaders == null || _loaders.Count == 0)
-                throw new Exception("Please Set UILoader First");
-            for (int i = 0; i < _loaders.Count; i++)
-            {
-                var result = _loaders[i].Load(ref name);
-                if (result == null) continue;
-                UILoadComplete(result, name, callback);
-                return;
-            }
-            LoadPanelAsyncOperation op = Framework.GlobalAllocate<LoadPanelAsyncOperation>();
-            op.callback = callback;
-            op.panelName = name;
-            for (int i = 0; i < _loaders.Count; i++)
-            {
-                if (_loaders[i].LoadAsync(ref name, op))
-                {
-                    asyncLoadQueue.Enqueue(op);
-                    return;
-                }
-            }
-            throw new Exception($"Can't load ui with Name: {name}");
-        }
-
-        private void UILoadComplete(UIPanel ui, string name, Action<UIPanel> callback)
-        {
-            if (ui != null)
-            {
-                ui = UnityEngine.Object.Instantiate(ui, GetLayerParent(GetPanelLayer(ui)));
-                ui.name = name;
-                ui.module = this;
-                SetOrder(ui);
-                _groups.Subscribe(ui);
-                _groups.OnLoad(name);
-            }
-            callback?.Invoke(ui);
-        }
-
-        private void CheckAsyncLoad()
-        {
-            if (asyncLoadQueue.Count == 0) return;
-            while (asyncLoadQueue.Count > 0 && asyncLoadQueue.Peek().isDone)
-            {
-                LoadPanelAsyncOperation op = asyncLoadQueue.Dequeue();
-                UILoadComplete(op.panel, op.panelName, op.callback);
-                op.SetToDefault();
-                op.GlobalRecyle();
-            }
         }
         /// <summary>
         /// 展示一个界面
@@ -369,12 +312,6 @@ namespace IFramework.UI
             else
                 OnShowCallBack(panel);
         }
-        private void OnShowCallBack(UIPanel panel)
-        {
-            if (panel == null) return;
-            string name = panel.name;
-            this._groups.OnShow(name);
-        }
         /// <summary>
         /// 藏一个界面
         /// </summary>
@@ -385,30 +322,6 @@ namespace IFramework.UI
             if (panel != null)
             {
                 this._groups.OnHide(name);
-            }
-        }
-        /// <summary>
-        /// 挂起一个界面
-        /// </summary>
-        /// <param name="name"></param>
-        public void Pause(string name)
-        {
-            var panel = Find(name);
-            if (panel != null)
-            {
-                this._groups.OnPause(name);
-            }
-        }
-        /// <summary>
-        /// 重新启用一个界面
-        /// </summary>
-        /// <param name="name"></param>
-        public void Resume(string name)
-        {
-            var panel = Find(name);
-            if (panel != null)
-            {
-                this._groups.OnResume(name);
             }
         }
         /// <summary>
@@ -426,7 +339,6 @@ namespace IFramework.UI
                 DestroyPanel(panel);
             }
         }
+
     }
-
-
 }

@@ -32,14 +32,6 @@ namespace LoopClient
 		{
 		}
 
-		protected override void OnPause()
-		{
-		}
-
-		protected override void OnResume()
-		{
-		}
-
 		protected override void OnClose()
 		{
 		}

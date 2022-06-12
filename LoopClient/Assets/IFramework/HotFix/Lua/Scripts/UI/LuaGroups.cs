@@ -21,8 +21,6 @@ namespace IFramework.Hotfix.Lua
         public event Action<string> onLoad;
         public event Action<string> onShow;
         public event Action<string> onHide;
-        public event Action<string> onPause;
-        public event Action<string> onResume;
         public event Action<string> onClose;
 
         void IDisposable.Dispose()
@@ -41,9 +39,7 @@ namespace IFramework.Hotfix.Lua
         void IGroups.OnLoad(string panel) => onLoad?.Invoke(panel);
         void IGroups.OnClose(string name) => onClose?.Invoke(name);
         void IGroups.OnHide(string name)=> onHide?.Invoke(name);
-        void IGroups.OnPause(string name) => onPause?.Invoke(name);
         void IGroups.OnShow(string name) => onShow?.Invoke(name);
-        void IGroups.OnResume(string name) => onResume?.Invoke(name);
         bool IGroups.Subscribe(UIPanel panel) => onSubscribe != null ? onSubscribe(panel) : false;
         bool IGroups.UnSubscribe(UIPanel panel) => onUnSubscribe != null ? onUnSubscribe(panel) : false;
     }

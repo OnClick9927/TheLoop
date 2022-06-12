@@ -32,14 +32,6 @@ namespace IFramework.UI
         {
             panel.Hide();
         }
-        public virtual void Pause()
-        {
-            panel.Pause();
-        }
-        public virtual void Resume()
-        {
-            panel.Resume();
-        }
 
         protected UIView Bind(Text text, Func<string> getter)
         {
@@ -121,8 +113,6 @@ namespace IFramework.UI
         protected abstract void OnLoad();
         protected abstract void OnShow();
         protected abstract void OnHide();
-        protected abstract void OnPause();
-        protected abstract void OnResume();
         protected abstract void OnClose();
 
         void IViewStateEventHandler.OnLoad()
@@ -139,16 +129,6 @@ namespace IFramework.UI
         void IViewStateEventHandler.OnHide()
         {
             OnHide();
-        }
-
-        void IViewStateEventHandler.OnPause()
-        {
-            OnPause();
-        }
-
-        void IViewStateEventHandler.OnResume()
-        {
-            OnResume();
         }
 
         void IViewStateEventHandler.OnClose()

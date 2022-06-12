@@ -66,18 +66,6 @@ namespace IFramework.UI
             }
         }
 
-        void IGroups.OnPause(string name)
-        {
-            if (_nameMap.ContainsKey(name))
-            {
-                _nameMap[name].OnPause(name);
-            }
-            else
-            {
-                Log.E("the panel have not subscribe  panel name :" + name);
-            }
-        }
-
         void IGroups.OnShow(string name)
         {
             if (_nameMap.ContainsKey(name))
@@ -99,17 +87,6 @@ namespace IFramework.UI
             else
             {
                 Log.E("the panel have not subscribe  panel name :" + name);
-            }
-        }
-        void IGroups.OnResume(string name)
-        {
-            if (_nameMap.ContainsKey(name))
-            {
-                _nameMap[name].OnResume(name);
-            }
-            else
-            {
-                Log.E("the panel have not subscribe  panel name :"+name);
             }
         }
 

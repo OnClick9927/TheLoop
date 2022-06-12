@@ -22,8 +22,6 @@ namespace IFramework.UI
             void OnLoad();
             void OnShow();
             void OnHide();
-            void OnPause();
-            void OnResume();
             void OnClose();
         }
         private MVVMGroups _moudule;
@@ -97,14 +95,6 @@ namespace IFramework.UI
         void IGroups.OnHide(string panel)
         {
             (FindGroup(panel).view as IViewStateEventHandler).OnHide();
-        }
-        void IGroups.OnPause(string panel)
-        {
-            (FindGroup(panel).view as IViewStateEventHandler).OnPause();
-        }
-        void IGroups.OnResume(string panel)
-        {
-            (FindGroup(panel).view as IViewStateEventHandler).OnResume();
         }
         void IGroups.OnClose(string panel)
         {

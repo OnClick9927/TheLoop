@@ -53,8 +53,6 @@ function LuaGroups:SetMap(map)
     self.CS_instance:onLoad("+", self.onLoad)
     self.CS_instance:onShow("+", self.onShow)
     self.CS_instance:onHide("+", self.onHide)
-    self.CS_instance:onPause("+", self.onPause)
-    self.CS_instance:onResume("+", self.onResume)
     self.CS_instance:onClose("+", self.onClose)
     self.map = map
     return self.CS_instance
@@ -74,8 +72,6 @@ function LuaGroups:OnDispose()
     self.CS_instance:onLoad("-", self.onLoad)
     self.CS_instance:onShow("-", self.onShow)
     self.CS_instance:onHide("-", self.onHide)
-    self.CS_instance:onPause("-", self.onPause)
-    self.CS_instance:onResume("-", self.onResume)
     self.CS_instance:onClose("-", self.onClose)
     self.groups = nil
     self.CS_instance = nil
@@ -143,14 +139,6 @@ end
 
 function LuaGroups:OnHide(name)
     self:FindGroup(name).view:OnHide()
-end
-
-function LuaGroups:OnPause(name)
-    self:FindGroup(name).view:OnPause()
-end
-
-function LuaGroups:OnResume(name)
-    self:FindGroup(name).view:OnResume()
 end
 
 function LuaGroups:OnClose(name)

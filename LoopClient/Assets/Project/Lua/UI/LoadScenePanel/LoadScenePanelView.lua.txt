@@ -44,14 +44,6 @@ function LoadScenePanelView:OnHide()
 
 end
 
-function LoadScenePanelView:OnPause()
-
-end
-
-function LoadScenePanelView:OnResume()
-
-end
-
 function LoadScenePanelView:OnClose()
 	self.Controls = nil
 end
