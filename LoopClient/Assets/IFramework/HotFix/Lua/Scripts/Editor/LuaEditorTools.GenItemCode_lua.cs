@@ -46,7 +46,7 @@ namespace IFramework.Hotfix.Lua
 
             public override void OnEnable()
             {
-                var last = EditorTools.Prefs.GetObject<GenItemCode_lua, GenItemCode_lua>(key);
+                var last = this.GetFromPrefs<GenItemCode_lua>(key);
                 if (last != null)
                 {
                     this.workFolder = last.workFolder;
@@ -62,7 +62,7 @@ namespace IFramework.Hotfix.Lua
             }
             public override void OnDisable()
             {
-                EditorTools.Prefs.SetObject<GenItemCode_lua, GenItemCode_lua>(key, this);
+                this.SaveToPrefs(key);
             }
             public override void OnGUI()
             {
@@ -88,7 +88,7 @@ namespace IFramework.Hotfix.Lua
                     creater.SetGameObject(panel.gameObject);
                 EditorGUILayout.LabelField("UIPanelGenPath", panelFolder);
                 fields.OnGUI();
-         
+
                 if (GUILayout.Button("Gen"))
                 {
                     if (panel == null) EditorWindow.focusedWindow.ShowNotification(new GUIContent("Set UI Panel "));

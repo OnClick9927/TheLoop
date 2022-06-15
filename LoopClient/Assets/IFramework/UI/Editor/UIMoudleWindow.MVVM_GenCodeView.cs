@@ -57,7 +57,7 @@ namespace IFramework.UI
 
             public override void OnEnable()
             {
-                var last = EditorTools.Prefs.GetObject<MVVM_GenCodeView, MVVM_GenCodeView>(key);
+                var last = this.GetFromPrefs<MVVM_GenCodeView>(key);
                 if (last != null)
                 {
                     this.panel = last.panel;
@@ -76,7 +76,7 @@ namespace IFramework.UI
             }
             public override void OnDisable()
             {
-                EditorTools.Prefs.SetObject<MVVM_GenCodeView, MVVM_GenCodeView>(key, this);
+                this.SaveToPrefs(key);
             }
 
             public override void OnGUI()

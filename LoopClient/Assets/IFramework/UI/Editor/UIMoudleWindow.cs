@@ -35,7 +35,6 @@ namespace IFramework.UI
             {
                 item.OnEnable();
             }
-            viewIndex = EditorTools.Prefs.GetInt<UIMoudleWindow>(key, viewIndex);
             EditorApplication.hierarchyChanged += () =>{ Repaint(); };
 
         }
@@ -45,7 +44,6 @@ namespace IFramework.UI
             {
                 item.OnDisable();
             }
-            EditorTools.Prefs.SetInt<UIMoudleWindow>(key, viewIndex);
         }
         private void OnGUI()
         {

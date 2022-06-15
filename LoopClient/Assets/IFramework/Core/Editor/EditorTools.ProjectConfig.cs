@@ -92,13 +92,37 @@ namespace IFramework
                 public string Version { get { return PlayerSettings.bundleVersion; } set { PlayerSettings.bundleVersion = value; } }
                 public string NameSpace { get { return PlayerSettings.productName; } set { PlayerSettings.productName = value; } }
                 public string UserName { get; private set; }
-                public void SetName(string name)
-                {
-                    UserName = name;
-                }
                 public ProjectConfigInfo()
                 {
                     Description = "Description";
+                }
+
+                private static string path { get { return EditorEnv.projectMemoryPath.CombinePath("ProjectConfig.json"); } }
+                public static ProjectConfigInfo Load()
+                {
+                    if (!File.Exists(path))
+                    {
+                        File.WriteAllText(path, JsonUtility.ToJson(new ProjectConfigInfo()));
+                    }
+
+                    var __info = JsonUtility.FromJson<ProjectConfigInfo>(File.ReadAllText(path));
+                    var type = typeof(UnityEditor.Connect.UnityOAuth).Assembly.GetType("UnityEditor.Connect.UnityConnect");
+                    var m = type.GetMethod("GetUserInfo");
+                    var instance = type.GetProperty("instance");
+                    var userInfo = m.Invoke(instance.GetValue(null), null);
+                    var _type = userInfo.GetType();
+                    var p = _type.GetProperty("displayName");
+                    __info.UserName = (string)p.GetValue(userInfo);
+                    if (!__info.logIgnoreFiles.Contains(default_path))
+                    {
+                        __info.logIgnoreFiles.Add(default_path);
+                    }
+                    __info.Save();
+                    return __info;
+                }
+                public void Save()
+                {
+                    File.WriteAllText(path, JsonUtility.ToJson(this, true));
                 }
             }
 
@@ -110,36 +134,14 @@ namespace IFramework
                 {
                     if (__info == null)
                     {
-
-
-                        __info = EditorTools.Prefs.GetObject<ProjectConfigInfo, ProjectConfigInfo>(key);
-                        if (__info == null)
-                        {
-                            EditorTools.Prefs.SetObject<ProjectConfigInfo, ProjectConfigInfo>(key, new ProjectConfigInfo());
-                            __info = EditorTools.Prefs.GetObject<ProjectConfigInfo, ProjectConfigInfo>(key);
-                        }
+                        __info = ProjectConfigInfo.Load();
                     }
-                    var type = typeof(UnityEditor.Connect.UnityOAuth).Assembly.GetType("UnityEditor.Connect.UnityConnect");
-                    var m = type.GetMethod("GetUserInfo");
-                    var instance = type.GetProperty("instance");
-                    var userInfo = m.Invoke(instance.GetValue(null), null);
-                    var _type = userInfo.GetType();
-                    var p = _type.GetProperty("displayName");
-                    string name = (string)p.GetValue(userInfo);
-                    __info.SetName(name);
-                    if (!__info.logIgnoreFiles.Contains(default_path))
-                    {
-                        __info.logIgnoreFiles.Add(default_path);
-                    }
-                    Save();
-
                     return __info;
                 }
             }
-            private const string key = "ProjectConfig";
             public static void Save()
             {
-                EditorTools.Prefs.SetObject<ProjectConfigInfo, ProjectConfigInfo>(key, __info);
+                __info.Save();
             }
 
 
@@ -188,7 +190,7 @@ namespace IFramework
                 {
 
                     private static string newScriptName = "newScript.cs";
-                    private static string originScriptPathWithNameSpace = EditorEnv.formatScriptsPath.CombinePath("UserCSharpScript.txt");
+                    private static string originScriptPathWithNameSpace = EditorEnv.projectMemoryPath.CombinePath("UserCSharpScript.txt");
 
                     [MenuItem("Assets/IFramework/Create/FormatCSharpScript", priority = -1000)]
                     public static void Create()
@@ -237,7 +239,7 @@ namespace IFramework
                 private class FormatUserMonoScript
                 {
                     private static string newScriptName = "newScript.cs";
-                    private static string originScriptPathWithNameSpace = EditorEnv.formatScriptsPath.CombinePath("UserMonoScript.txt");
+                    private static string originScriptPathWithNameSpace = EditorEnv.projectMemoryPath.CombinePath("UserMonoScript.txt");
 
                     [MenuItem("Assets/IFramework/Create/FormatMonoScript", priority = -1000)]
                     public static void Create()

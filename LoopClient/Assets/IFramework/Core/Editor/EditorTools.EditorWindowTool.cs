@@ -11,23 +11,25 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using System.Reflection;
 
 namespace IFramework
 {
+    [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = false)]
+    public class EditorWindowCacheAttribute : Attribute
+    {
+        public string searchName { get; private set; }
+        public EditorWindowCacheAttribute() { }
+        public EditorWindowCacheAttribute(string searchName)
+        {
+            this.searchName = searchName;
+        }
+
+    }
     partial class EditorTools
     {
         [OnEnvironmentInit(EnvironmentType.Ev0)]
         public static class EditorWindowTool
         {
-            public enum DockType
-            {
-                Left,
-                Top,
-                Right,
-                Bottom
-            }
-
             public class Entity
             {
                 public string searchName { get; private set; }
@@ -162,10 +164,6 @@ namespace IFramework
                 Entity item = FindEntity(name);
                 return item == null ? null : item.FindOrCreate();
             }
-
-
-
-
         }
     }
 

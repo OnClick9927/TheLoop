@@ -57,7 +57,7 @@ namespace LoopClient
                         panelName = cfg.datas[i].panelName,
                     });
                 }
-                EditorTools.ScriptableObjectTool.Update(this);
+                EditorTools.AssetTool.Update(this);
                 serializedObject.Update();
                 EditorApplication.RepaintProjectWindow();
             }

@@ -61,8 +61,8 @@ namespace IFramework.Hotfix.Asset
         public static AssetBuildSetting Load()
         {
             if (File.Exists(stoPath))
-                return EditorTools.ScriptableObjectTool.Load<AssetBuildSetting>(stoPath);
-            return EditorTools.ScriptableObjectTool.Create<AssetBuildSetting>(stoPath);
+                return EditorTools.AssetTool.Load<AssetBuildSetting>(stoPath);
+            return EditorTools.AssetTool.CreateScriptableObject<AssetBuildSetting>(stoPath);
         }
 
         public List<string> ignoreFileEtend = new List<string>() {
@@ -177,7 +177,7 @@ namespace IFramework.Hotfix.Asset
 
         public void Save()
         {
-            EditorTools.ScriptableObjectTool.Update(this);
+            EditorTools.AssetTool.Update(this);
         }
     }
 }

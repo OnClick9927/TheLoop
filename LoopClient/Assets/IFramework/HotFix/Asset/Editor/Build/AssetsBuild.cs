@@ -83,10 +83,10 @@ namespace IFramework.Hotfix.Asset
                     assetdps.Add(path, dps);
             }
             if (!File.Exists(AssetManifest.Path))
-                EditorTools.ScriptableObjectTool.Create<AssetManifest>(AssetManifest.Path);
-            AssetManifest main = EditorTools.ScriptableObjectTool.Load<AssetManifest>(AssetManifest.Path);
+                EditorTools.AssetTool.CreateScriptableObject<AssetManifest>(AssetManifest.Path);
+            AssetManifest main = EditorTools.AssetTool.Load<AssetManifest>(AssetManifest.Path);
             main.Read(allAssets, assetdps);
-            EditorTools.ScriptableObjectTool.Update(main);
+            EditorTools.AssetTool.Update(main);
             AssetBundleBuild mainbuild = new AssetBundleBuild();
             mainbuild.assetNames = new string[] { AssetManifest.Path };
             mainbuild.assetBundleName = AssetsTool.GetMd5(AssetManifest.Path);

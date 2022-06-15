@@ -472,38 +472,6 @@ function table.Swap(array, i, j)
     end
 end
 
----快速排序
----@generic V
----@param array V[]
----@param compare fun(a:V,b:V):boolean
----@param left number
----@param right number
-function table.QuickSort(array, compare, left, right)
-    if table.IsEmpty(array) then
-        return
-    end
-    left, right = left or 1, right or #array
-    if left >= right then
-        return
-    end
-    local i, j, pivot = left + 1, right, array[left]
-    while i <= j do
-        while i <= j and compare(array[i], pivot) do
-            i = i + 1
-        end
-        while i <= j and compare(pivot, array[j]) do
-            j = j - 1
-        end
-        if i <= j then
-            table.Swap(array, i, j)
-            i = i + 1
-            j = j - 1
-        end
-    end
-    table.QuickSort(array, compare, left, i - 1)
-    table.QuickSort(array, compare, i + 1, right)
-end
-
 ---多条件排序 第一个条件无法判断就判断后一个
 ---@generic V
 ---@param list V[]
@@ -524,7 +492,7 @@ function table.Sort(list, ...)
         end
         return false
     end
-    table.QuickSort(list, compare, 1, #list)
+    table.sort(list, compare)
 end
 
 ---转化一个table

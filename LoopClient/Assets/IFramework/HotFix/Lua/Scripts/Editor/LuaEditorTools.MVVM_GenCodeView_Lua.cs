@@ -276,7 +276,7 @@ namespace IFramework.Hotfix.Lua
 
             public override void OnEnable()
             {
-                var last = EditorTools.Prefs.GetObject<MVVM_GenCodeView_Lua, MVVM_GenCodeView_Lua>(key);
+                var last = this.GetFromPrefs<MVVM_GenCodeView_Lua>(key);
                 if (last != null)
                 {
                     this.workFolder = last.workFolder;
@@ -292,7 +292,7 @@ namespace IFramework.Hotfix.Lua
             }
             public override void OnDisable()
             {
-                EditorTools.Prefs.SetObject<MVVM_GenCodeView_Lua, MVVM_GenCodeView_Lua>(key, this);
+                this.SaveToPrefs(key);
             }
 
 
@@ -420,8 +420,8 @@ namespace IFramework.Hotfix.Lua
                 }
 
                 private static string newScriptName = "NewLuaClass.lua.txt";
-                private static string originScriptPathWithNameSpace0 = EditorEnv.formatScriptsPath.CombinePath("UserLuaScript0.txt");
-                private static string originScriptPathWithNameSpace = EditorEnv.formatScriptsPath.CombinePath("UserLuaScript.txt");
+                private static string originScriptPathWithNameSpace0 = EditorEnv.projectMemoryPath.CombinePath("UserLuaScript0.txt");
+                private static string originScriptPathWithNameSpace = EditorEnv.projectMemoryPath.CombinePath("UserLuaScript.txt");
                 [MenuItem("Assets/IFramework/Create/FormatLuaBehaviourClass")]
                 private static void Create0()
                 {
