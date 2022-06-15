@@ -56,6 +56,7 @@
     <Analyzer Include="C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\IFrameworkExtend\Tweens\Editor\TweenWindow.cs" />
     <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\Window\AssetsWindow.Collection.CollectType.cs" />
     <Compile Include="Assets\IFramework\Core\Editor\GUI\SearchField.cs" />
     <Compile Include="Assets\IFramework\Core\Editor\CopyAsset.cs" />
@@ -102,12 +103,14 @@
     <Compile Include="Assets\IFramework\UI\Editor\UIMoudleWindow.MVVM_GenCodeView.cs" />
     <Compile Include="Assets\IFramework\HotFix\Lua\Scripts\Editor\LuaEditorTools.LuaBehaviorEditor.cs" />
     <Compile Include="Assets\IFramework\Core\Editor\Env\EditorEnv.FileInitializeCommand.cs" />
+    <Compile Include="Assets\IFrameworkExtend\Tweens\Component\Editor\DoScaleComponentEditor.cs" />
     <Compile Include="Assets\XLua\XLua\Src\Editor\TemplateRef.cs" />
     <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\AssetInfo.cs" />
     <Compile Include="Assets\IFramework\Core\Editor\EditorTools.ScriptCreaterFieldsDrawer.cs" />
     <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\AssetBuildSetting.cs" />
     <Compile Include="Assets\XLua\XLua\Editor\ExampleConfig.cs" />
     <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\Window\AssetsWindow.Collection.cs" />
+    <Compile Include="Assets\IFrameworkExtend\Tweens\Component\Editor\TweenComponentEditor.cs" />
     <Compile Include="Assets\IFramework\UI\Tools\Scripts\Editor\LoopListViewEditor.cs" />
     <Compile Include="Assets\Project\Scripts\Editor\LoopClientPanelConfigEditor.cs" />
     <Compile Include="Assets\IFramework\HotFix\Asset\Editor\Build\AssetsBuild.cs" />
